@@ -6,6 +6,7 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  TouchableHighlight,
   Alert,
   DeviceEventEmitter
  } from 'react-native'
@@ -15,7 +16,12 @@ import {
  import { modifyLandlordHouseStatus } from '../../reducers/longRent-hasRent.redux'
  import { addLintent } from '../../reducers/main.redux'
  import { TransformDepositType,TransfromDecorate,TransformOrientation } from '../../utils/fnUtils'
+ import ActionButton from 'react-native-action-button'
+ import PhotoAlbumModal from '../../components/photoAlbumModal'
+ import NavigateToMapHoc from '../../hoc/navigateToMapHoc'
 
+
+ @NavigateToMapHoc
  @connect(
     state=>({longRent: state.longRent}),
     {
@@ -42,7 +48,8 @@ import {
    constructor() {
      super()
      this.state = { 
-       visible:false
+       visible:false,
+       picModalVisible: false
      }
      this.cancelPublish = this.cancelPublish.bind(this)
      this.cancelCb = this.cancelCb.bind(this)
@@ -89,31 +96,29 @@ import {
      const houseDetail = this.props.longRent.landlordHouseDetailwait
      return (
        houseDetail?
+       <View style={{flex:1}}>
+        {
+          this.props.longRent.DetailFromSource==='landlord'?
+          <ActionButton buttonColor="rgba(231,76,60,1)" style={{zIndex:99}}>
+            <ActionButton.Item buttonColor='#9b59b6' title="取消发布" onPress={this.cancelPublish}>
+              <Image source={require('../../assets/images/cancel_publish.png')}></Image>
+            </ActionButton.Item>
+            <ActionButton.Item buttonColor='#3498db' title="线下租房" onPress={()=>this.props.navigation.navigate('OffLineLease',{houseId: houseDetail.id })}>
+              <Image source={require('../../assets/images/xianxia_rent.png')}></Image>
+            </ActionButton.Item>
+          </ActionButton>
+          :null
+        }
+          
        <ScrollView>
         {
           this.props.longRent.DetailFromSource==='passShenHe'?
           <NoticeBar mode="closable" icon={null}>我们将安装智能设备，并确认房源信息</NoticeBar>
           :null
         }
-         <Image style={{width:'100%',height:170}} source={{uri: houseDetail.pictures.split(',')[0]}}></Image>
-         {
-           this.props.longRent.DetailFromSource==='landlord'?
-           <View style={{position:'absolute',flexDirection:'row',top:10,right:10}}>
-           <TouchableOpacity onPress={this.cancelPublish}>
-             <View style={{alignItems:'center',marginRight:10}}>
-                <Image source={require('../../assets/images/cancel_publish.png')}></Image>
-                <Text style={{color:'#fff'}}>取消发布</Text>
-             </View>
-           </TouchableOpacity>
-           <TouchableOpacity onPress={()=>this.props.navigation.navigate('OffLineLease',{houseId: houseDetail.id })}>
-             <View style={{alignItems:'center'}}>
-                <Image source={require('../../assets/images/xianxia_rent.png')}></Image>
-                <Text style={{color:'#fff'}}>线下租房</Text>
-             </View>
-           </TouchableOpacity>
-         </View>:null
-         }
-         
+         <TouchableOpacity onPress={()=>this.setState({picModalVisible: true})}>
+            <Image style={{width:'100%',height:170}} source={{uri: houseDetail.pictures.split(',')[0]}}></Image>
+         </TouchableOpacity>
          <View style={[{paddingLeft:15,paddingRight:15,backgroundColor:'#fff'},styles.border_bottom]}>
            <View style={[styles.flex_row_center]}>
             <Text style={[styles.houseName,{flex:1}]} numberOfLines={1}>{houseDetail.title}</Text>
@@ -157,10 +162,12 @@ import {
               :null
             }
            </View>
-           <View style={[{height:55,},styles.flex_row_center,styles.border_bottom]}>
-              <Image source={require('../../assets/images/loc_icon2.png')}></Image>
-              <Text style={{marginLeft:15,fontSize:15}}>{houseDetail.detailAddress}</Text>
-           </View>
+           <TouchableHighlight underlayColor='#aaa' onPress={()=>this.props.actionSheetHandle.show()}>
+              <View style={[{height:55,},styles.flex_row_center,styles.border_bottom]}>
+                  <Image source={require('../../assets/images/loc_icon2.png')}></Image>
+                  <Text style={{marginLeft:15,fontSize:15}}>{houseDetail.address.split('-').slice(-2).join('-') + houseDetail.detailAddress}</Text>
+              </View>
+           </TouchableHighlight>
            <View style={styles.border_bottom}>
               <View style={[{height:55,},styles.flex_row_center]}>
                 <Image source={require('../../assets/images/house_icon.png')}></Image>
@@ -218,7 +225,7 @@ import {
          {
           this.props.longRent.DetailFromSource==='search'?
           <View style={{padding:10,marginTop:10,backgroundColor:'#fff'}}>
-           <Button type='primary' onClick={()=>this.props.addLintent({houseId: houseDetail.id,landlordId: houseDetail.landlord.id},()=>Toast.info('已预约'))}>预约租房</Button>
+           <Button type='primary' onClick={()=>this.props.addLintent({houseId: houseDetail.id,landlordId: houseDetail.landlord.id},()=>Toast.info('已预约'))}>预约看房</Button>
          </View>
          :null 
          }
@@ -236,7 +243,14 @@ import {
              <Text style={{fontSize:15,lineHeight:20,paddingBottom:10}}>您与签署的协议未到期，继续操作将违反协议，需要支付违约金</Text>
            </View>
           </Modal>
-       </ScrollView>
+        </ScrollView>
+        <PhotoAlbumModal 
+          pics={houseDetail.pictures.split(',')}
+          visible={this.state.picModalVisible}
+          onClose={()=>this.setState({picModalVisible: false})}
+        />
+
+       </View>
        :null
      )
    }

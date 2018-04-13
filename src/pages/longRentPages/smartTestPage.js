@@ -26,7 +26,7 @@ import {
       this.props.powerRecord({powerId:powerId,pageSize:50,pageNo:1})
    }
    render() {
-     const powerId = this.props.longRent.landlordHouseDetailalready.powerId
+     const powerId = this.props.longRent.powerId
      return (
        <ScrollableTabView
           style={{flex:1}}

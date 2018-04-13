@@ -10,10 +10,11 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
   TextInput,
-  ImageBackground
+  ImageBackground,
+  Linking
  } from 'react-native'
 import StarsComponent from '../components/starsComponent'
-import { TransformStatus,auditFailStatus } from './fnUtils'
+import { TransformStatus,auditFailStatus,telephoneFormat,telephoneHidden } from './fnUtils'
 const Item = List.Item;
 const screenWidth =Dimensions.get('window').width
 
@@ -239,10 +240,11 @@ export default class ViewUtils {
     </TouchableHighlight>
   }
   
-  static landlordIntentItem(data,handleIntent) {
-    return <View style={{backgroundColor:'#fff',marginTop:10}}>
+  static landlordIntentItem(data,handleIntent,handlePress) {
+    return <TouchableHighlight underlayColor='#aaa' onPress={()=>handlePress(data)}>
+    <View style={{backgroundColor:'#fff',marginTop:10}}>
       <View style={{height:125,flexDirection:'row',alignItems:'center'}}>
-         <Image source={require('../assets/images/air_bg.png')} style={{width:100,height:80,marginLeft:20}}></Image>
+         <Image source={{uri: data.house.pictures.split(',')[0]}} style={{width:100,height:80,marginLeft:20}}></Image>
          <View style={{justifyContent:'space-between',height:80,marginLeft:15}}>
            <Text style={{fontSize:17,color:'#000'}} numberOfLines={1}>{data.house.title}</Text>
            <Text style={{color:'#555'}} numberOfLines={1}>姓名:{data.customer.name}</Text>
@@ -252,14 +254,14 @@ export default class ViewUtils {
       </View>
       <View style={{height:50,alignItems:'center',borderTopColor:'#d8d8d8',borderTopWidth:0.5,flexDirection:'row'}}>
           <View style={{flex:1}}></View>
-          <TouchableOpacity onPress={()=>handleIntent()}>
+          <TouchableOpacity onPress={()=>handleIntent(data)}>
             <View style={{width:89,height:25,borderRadius:12.5,borderColor:'#ff9c40',borderWidth:1,justifyContent:'center',marginRight:20}}>
              <Text style={{color:'#ff9c40',fontSize:15,textAlign:'center'}}>
               {
-              data.status === 1 ?'同意租房':null  
+              data.status === 1 ?'同意看房':null  
               }
               {
-                data.status === 2 ?'出租成功':null  
+                data.status === 2 ?'确认出租':null  
               }
               {
                 data.status === 3 ?'已出租':null  
@@ -269,16 +271,35 @@ export default class ViewUtils {
           </TouchableOpacity>
       </View>
     </View>
+    </TouchableHighlight>
   }
 
-  static customerIntentItem(data,handleDel) {
-    return <View style={{backgroundColor:'#fff'}}>
+  static customerIntentItem(data,handleDel,handlePress) {
+    return <TouchableHighlight underlayColor='#aaa' onPress={()=>handlePress(data)}>
+    <View style={{backgroundColor:'#fff',marginTop:10}}>
       <View style={{height:125,flexDirection:'row',alignItems:'center'}}>
-         <Image source={require('../assets/images/air_bg.png')} style={{width:100,height:80,marginLeft:20}}></Image>
-         <View style={{justifyContent:'space-between',height:80,marginLeft:15}}>
+         <Image source={{uri: data.house.pictures.split(',')[0]}} style={{width:100,height:80,marginLeft:20}}></Image>
+         <View style={{justifyContent:'space-between',height:80,marginLeft:15,flex:1}}>
            <Text style={{fontSize:17,color:'#000'}} numberOfLines={1}>{data.house.title}</Text>
-           <Text style={{color:'#555'}} numberOfLines={1}>姓名:{data.customer.name}</Text>
-           <Text style={{color:'#555'}} numberOfLines={1}>手机:{data.customer.telephone}</Text>
+           <Text style={{color:'#555'}} numberOfLines={1}>姓名:{data.landlord.name}</Text>
+           <Text style={{color:'#555'}} numberOfLines={1}>手机:
+            {
+             data.status === 1?
+             telephoneHidden(data.landlord.telephone)
+                :null
+            }
+            {
+              data.status === 2 || data.status === 3?
+             
+                <Text 
+                  onPress={()=>Linking.openURL(`tel:${data.landlord.telephone}`)}
+                  style={{color:'#0d81ff',flex:1}}>{telephoneFormat(data.landlord.telephone)}
+                  <Image style={{marginLeft:50,marginTop:5}} source={require('../assets/images/call_icon.png')}></Image>
+                </Text>
+             
+               :null
+             }
+            </Text>
            <Text style={{color:'#555'}} numberOfLines={1}>时间:{data.gmtCreate}</Text>
          </View>
       </View>
@@ -287,23 +308,24 @@ export default class ViewUtils {
         <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',padding:15}}>
             <Text style={{fontSize:15,color:'#ff9c40'}}>
             {
-              data.status === 1 ?'等待房东确认':null  
+              data.status === 1 ?'待房东确认':null  
             }
             {
-              data.status === 2 ?'房东已确认':null  
+              data.status === 2 ?'房源待出租':null  
             }
             {
-              data.status === 3 ?'已出租':null  
+              data.status === 3 ?'房源已出租':null  
             }
             </Text>
-            <TouchableOpacity onPress={()=>handleDel()}>
+            <TouchableOpacity onPress={()=>handleDel(data)}>
               <View style={{width: 50,height:24,borderColor:'#ffb354',borderWidth: 0.5,borderRadius:12.5,alignItems:'center',justifyContent:'center'}}>
                 <Text style={{color:'#ffb354'}}>删除</Text>
               </View>
             </TouchableOpacity>
         </View>
-      </View>
-    </View>
+       </View>
+     </View>
+    </TouchableHighlight>
   }
 
   static longRentSearchItem(order,cb) {

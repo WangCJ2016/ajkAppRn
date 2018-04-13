@@ -11,14 +11,15 @@ import {
  import ViewUtils from '../../utils/viewUtils'
  import ImagePicker from 'react-native-image-picker'
  import {uploadImage,modifyHeadPicture} from '../../reducers/user.redux'
- import { intialStateSuccess } from '../../reducers/longRent.redux'
+ import { intialStateSuccess as intialStateSuccessLongRent } from '../../reducers/longRent.redux'
+ import {initialStateSuccess as intialStateSuccessUser} from '../../reducers/user.redux'
  import { connect } from 'react-redux'
 
 
  @connect(
    null,
    {
-    uploadImage,modifyHeadPicture,intialStateSuccess
+    uploadImage,modifyHeadPicture,intialStateSuccessLongRent,intialStateSuccessUser
    }
  )
  class UserSettingPage extends React.Component {
@@ -39,7 +40,8 @@ import {
       [
         {text: '取消'},
         {text: '确定', onPress: () => {
-          this.props.intialStateSuccess()
+          this.props.intialStateSuccessLongRent()
+          this.props.intialStateSuccessUser()
           this.props.navigation.navigate('Login'),AsyncStorage.clear()}
         },
       ],

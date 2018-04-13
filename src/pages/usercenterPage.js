@@ -26,10 +26,6 @@ import {
     super()
     this.headerClick = this.headerClick.bind(this)
   }
-  componentDidMount() {
-    //this.props.getInfo(this.props.navigation)
-  }
-  _onPressButton() {}
    userStatusMenuRender(icon,text,cb) {
       return  <TouchableHighlight
       style={{flex:1}}

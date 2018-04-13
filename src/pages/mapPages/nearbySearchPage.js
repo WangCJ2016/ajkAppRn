@@ -8,7 +8,7 @@ import {
   Modal,
   StyleSheet,
   TextInput,
-  Dimensions
+  Dimensions,
  } from 'react-native'
  import DropdownMenu from '../../components/react-native-dropdown-menu/DropdownMenu'
  import NavigationBar from '../../components/navigationBar'
@@ -177,9 +177,11 @@ import {
       return item.id
     }
    render() {
+     console.log(this.props)
      const data = [["地址区域"],['酒店','长租','短租'],["更多筛选"]];
      return (
       <View style={{flex: 1}} >
+        
         <DropdownMenu style={{flex: 1}}
           bgColor={"#fff"}                            //the background color of the head, default is grey
           tintColor={"#333"}                        //the text color of the head, default is white
@@ -253,7 +255,8 @@ import {
          conditionModalVisible={this.state.conditionModalVisible}
          conditionModalVisibleHandle={this.conditionModalVisibleHandle.bind(this)}
          type={this.props.map.searchInfo.type}
-        ></HotelModal>   
+        ></HotelModal>  
+        
       </View>
      )
   }

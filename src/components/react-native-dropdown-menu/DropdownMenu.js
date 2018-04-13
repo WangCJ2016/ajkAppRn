@@ -15,7 +15,7 @@ import PropTypes from 'prop-types'
     }
     this.state = {
       activityIndex: -1,
-      selectSecondIndex:-1,
+      selectSecondIndex:props.secondTitle,
       selectIndex: selectIndex,
       rotationAnims: props.data.map(() => new Animated.Value(0))
     };
@@ -61,8 +61,8 @@ import PropTypes from 'prop-types'
             {
               currentTitles.map((title,index)=>{
                 
-               const isSelect = this.state.selectSecondIndex===index
-               return <TouchableOpacity key={index} onPress={()=>{this.setState({selectSecondIndex:index});this.openOrClosePanel(this.state.activityIndex);this.props.handler(this.state.activityIndex, index);}}>
+               const isSelect = this.state.selectSecondIndex===title
+               return <TouchableOpacity key={index} onPress={()=>{this.setState({selectSecondIndex:title});this.openOrClosePanel(this.state.activityIndex);this.props.handler(this.state.activityIndex, index);}}>
                    <View style={[{width: 50,height:50,borderRadius:25,justifyContent:'center',alignItems:'center',
 									 backgroundColor:isSelect?'#ffb354':'#fff',
 									 borderColor:'#d8d8d8',						

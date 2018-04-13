@@ -15,6 +15,9 @@ const initialState = {
     leaseMode:'',
     layout:'',
     addressMark:''
+  },
+  city: {
+    name: ''
   }
 }
 const DATASUCCESS = '[map] DATASUCCESS'

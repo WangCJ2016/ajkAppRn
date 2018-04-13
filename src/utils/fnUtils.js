@@ -186,3 +186,15 @@ export function auditFailStatus(num) {
       return ''
   }
 }
+
+export function telephoneFormat(num) {
+  if(num) {
+    return num.slice(0,3)+'-'+num.slice(3,7)+'-'+num.slice(7)
+  }
+}
+
+export function telephoneHidden(num) {
+  if(num) {
+    return num.slice(0,3)+'****'+num.slice(7)
+  }
+}

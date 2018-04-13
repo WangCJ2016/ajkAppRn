@@ -4,7 +4,8 @@ import {
   Text,
   takeSnapshot,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  DeviceEventEmitter
  } from 'react-native'
 import { DatePicker,List,Toast } from 'antd-mobile'
 import { uploadImage } from '../../reducers/user.redux'
@@ -27,6 +28,7 @@ import { dateFormat } from '../../utils/fnUtils'
      this.cb = this.cb.bind(this)
    }
   static navigationOptions = ({navigation,screenProps}) => ({  
+    headerTitle: navigation.state.params.title,
     headerRight: (  
         <TouchableOpacity onPress={()=>navigation.state.params.handleSubmit()}>
           <View style={{flexDirection:'row',alignItems:'center',marginRight:10}}>
@@ -51,16 +53,16 @@ import { dateFormat } from '../../utils/fnUtils'
       );
    }
    cb(uri) {
+     const title = this.props.navigation.state.params.title
      this.props.modifyLeaseIntent({
       intentId: this.props.navigation.state.params.intentId,
       contract: uri,
-      operate: 'authorize',
+      operate: title==='确认看房'?'confirm':'authorize',
       startTime: dateFormat(this.state.startTime),
       endTime: dateFormat(this.state.endTime)
-     },()=>{this.props.navigation.goBack();Toast.info('已提交合同')})
+     },()=>{this.props.navigation.goBack();Toast.info('已同意');DeviceEventEmitter.emit('REFRESHLANDLORDINTENT')})
    }
    render() {
-     console.log(this.state)
      return (
        <View>
         <View ref={(constract)=>this.constract = constract}>

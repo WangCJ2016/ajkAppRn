@@ -25,14 +25,21 @@ import {
     this.renderCell = this.renderCell.bind(this)
     this.onHeaderRefresh = this.onHeaderRefresh.bind(this)
     this.onFooterRefresh = this.onFooterRefresh.bind(this)
-   
+    this.handlePress = this.handlePress.bind(this)
+    this.handleDel = this.handleDel.bind(this)
   }
   componentDidMount() {
     this.onHeaderRefresh()
    }
    renderCell(data) {
     const order = data.item
-    return ViewUtils.customerIntentItem(order,this.handleDel.bind(this,order))
+    return ViewUtils.customerIntentItem(order,this.handleDel,this.handlePress)
+  }
+  handlePress(order) {
+    if(order.status === 3) {
+      this.props.navigation.navigate('HomeCtrl')
+      return
+    }
   }
   handleDel(data) {
     Alert.alert(

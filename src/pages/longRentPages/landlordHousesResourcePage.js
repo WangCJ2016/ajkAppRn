@@ -55,7 +55,7 @@ import {
     ),  
   })
    componentDidMount() {
-     this.listener = DeviceEventEmitter.addListener('REFRESH',(action,params) => this.onHeaderRefresh())
+     this.listener =  DeviceEventEmitter.addListener('REFRESH',(action,params) => this.onHeaderRefresh())
      this.props.getInfo(()=>this.props.navigation.navigate('Login'))
      this.onHeaderRefresh()
      this.props.navigation.setParams({rentTypeSelect:this.rentTypeSelect})
@@ -63,12 +63,16 @@ import {
       DetailFromSource:'landlord'
      })
    }
+   componentWillUnmount(){  
+    this.listener.remove();  
+   }   
    rentTypeSelect() {
     if(!this.props.user.token) {
       this.props.navigation.navigate('Login')
       return
     }
      this.props.dataSuccess({
+        auditFail:'',
         houseStatus:0,
         deviceOrderData:{
           wireCount: '',

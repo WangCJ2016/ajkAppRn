@@ -466,13 +466,13 @@ export const AppNavigator = StackNavigator({
   LandlordInternt:{
     screen: LandlordInterntPage,
     navigationOptions: {
-      title:'房东意向列表',
+      title:'房东意向',
     }
   },
   CustomerIntent:{
     screen: CustomerIntentPage,
     navigationOptions: {
-      title:'我的意向列表',
+      title:'我的意向',
     }
   },
   OffLineLease:{
@@ -480,9 +480,6 @@ export const AppNavigator = StackNavigator({
   },
   ContractInfo: {
     screen: ContractInfoPage,
-    navigationOptions: {
-      title:'租房合同',
-    }
   }
 },{
   initialRouteName:'Main',

@@ -72,7 +72,7 @@ NavigationBar.propTypes = {
 }
 NavigationBar.defaultProps={
     statusBar: {
-        barStyle: 'light-content',
+        barStyle: 'default',
         hidden: false,
     },
 }
