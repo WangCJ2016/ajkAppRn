@@ -12,7 +12,9 @@ import { uploadImage } from '../../reducers/user.redux'
 import {connect} from 'react-redux'
 import { modifyLeaseIntent } from '../../reducers/main.redux'
 import { dateFormat } from '../../utils/fnUtils'
+import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+@InphoneXHoc
 @connect(
   null,{
     uploadImage,modifyLeaseIntent

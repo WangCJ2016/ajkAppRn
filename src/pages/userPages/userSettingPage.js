@@ -15,7 +15,9 @@ import {
  import {initialStateSuccess as intialStateSuccessUser} from '../../reducers/user.redux'
  import { connect } from 'react-redux'
 
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  @connect(
    null,
    {

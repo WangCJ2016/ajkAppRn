@@ -11,7 +11,9 @@ import {
  import RefreshListView, {RefreshState} from 'react-native-refresh-list-view'
  import ViewUtils from '../../utils/viewUtils'
  import ListCell from '../../components/listCellCom'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  @connect(
   state => ({landlord: state.landlord}),
   {

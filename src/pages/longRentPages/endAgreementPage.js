@@ -7,7 +7,10 @@ import {
 import { DatePicker,List,TextareaItem,Toast } from 'antd-mobile'
 import { stopContract,modifyLandlordHouseStatus } from '../../reducers/longRent-hasRent.redux'
 import { connect } from 'react-redux'
-import { dateFormat } from '../../utils/fnUtils' 
+import { dateFormat } from '../../utils/fnUtils'
+import InphoneXHoc from '../../hoc/inphoneXhoc'
+
+@InphoneXHoc 
 @connect(
    state=>({longRentHasRent:state.longRentHasRent}),
    {

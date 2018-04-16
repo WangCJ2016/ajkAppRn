@@ -16,6 +16,9 @@ import { dateFormat } from '../../utils/fnUtils'
 import viewUtils from '../../utils/viewUtils'
 import Modal from "react-native-modal"
 const ITEM_HEIGHT = 117
+import InphoneXHoc from '../../hoc/inphoneXhoc'
+
+ @InphoneXHoc
 @connect(
   state => ({landlord: state.landlord}),
   {

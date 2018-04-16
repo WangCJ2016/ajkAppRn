@@ -13,7 +13,9 @@ import { hotelRoomDetail,selectDays } from '../../reducers/hotel.redux'
 import { addshopCar } from '../../reducers/shopcar.redux'
 import ViewUtils from '../../utils/viewUtils'
 import { dateFormat } from '../../utils/fnUtils'
+import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  @connect(
    state=>({hotel: state.hotel}),
    { hotelRoomDetail,selectDays,addshopCar }

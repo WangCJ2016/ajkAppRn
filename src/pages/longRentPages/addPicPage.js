@@ -6,16 +6,17 @@ import {
   Image,
   TouchableOpacity,
   Platform,
-  Dimensions
+  Dimensions,
  } from 'react-native'
  import { Button } from 'antd-mobile'
  import ImagePicker from 'react-native-image-picker'
  import { connect } from 'react-redux'
  import { imgUpload,delPic,dataSuccess } from '../../reducers/longRent.redux'
- 
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
  const {width} = Dimensions.get('window')
-
+ 
+ @InphoneXHoc
  @connect(
   state=>({longRent: state.longRent}),
   {
@@ -74,6 +75,7 @@ import {
    render() {
      const pictures = this.props.longRent.rentHouseInfo.pictures.split(',').filter(v=>v!=='')
      return (
+     
        <View style={{flex:1}} >
            {pictures.length>0?
             <ScrollView style={{flex:1,padding:15}}>

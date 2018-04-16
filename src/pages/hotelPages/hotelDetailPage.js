@@ -20,6 +20,8 @@ import HotelRoomsCom from '../../components/hotelRoomsCom'
 import StarsComponent from '../../components/starsComponent'
 import ViewUtils from '../../utils/viewUtils'
 import * as wechat from 'react-native-wechat'
+import InphoneXHoc from '../../hoc/inphoneXhoc'
+ 
 
 const BUTTONS = [
   '微信好友',
@@ -29,6 +31,8 @@ const BUTTONS = [
 const CANCEL_INDEX = 2;
 
 const HEIGHT =  Dimensions.get('window').height
+
+@InphoneXHoc
 @connect(
   state=>({hotel: state.hotel}),
   {hotelDetail,hotelRoomList,scrollHeight,collection,cancelCollection} 

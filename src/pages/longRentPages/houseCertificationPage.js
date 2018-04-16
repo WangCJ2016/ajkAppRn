@@ -13,7 +13,8 @@ import {
  import ImagePicker from 'react-native-image-picker'
  import { connect } from 'react-redux'
  import { imgUpload } from '../../reducers/longRent.redux'
-
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
+ 
  const Item = List.Item
  const directionStyles = [
   [
@@ -28,6 +29,8 @@ import {
   ]
 ]
 
+
+@InphoneXHoc
 @connect(
   state=>({longRent: state.longRent}),
   {
@@ -106,19 +109,18 @@ import {
     });
    }
    render() {
-     console.log(this.props.longRent)
      return (
        <ScrollView>
           <List>
           <Item>
-            <Text>房产证</Text>
+            <Text style={styles.title}>房产证</Text>
             <Text style={[styles.brefText,{marginTop:6}]}>房产证要看到产权人的姓名</Text>
             <TouchableOpacity style={{width:'50%'}} onPress={()=>this.selectImage('certificateX','houseCertificationInfo')}>
               {
                 this.state.certificateX?
-                <Image source={{uri: this.state.certificateX,width:50,height:50}} style={{marginTop:10}}></Image>
+                <Image source={{uri: this.state.certificateX,width:60,height:60}} style={{marginTop:10}}></Image>
                 :
-                <View style={[styles.rect,{marginTop:13,width:50,height:50}]}>
+                <View style={[styles.rect,{marginTop:13,width:60,height:60}]}>
                   <Image source={require('../../assets/images/plus_s_icon.png')}></Image>
                   <Text style={{marginTop:2,color:'#b3b3b3'}}>添加</Text>
                 </View>
@@ -127,14 +129,14 @@ import {
           </Item>
 
           <Item>
-            <Text>出租资质</Text>
+            <Text style={styles.title}>出租资质</Text>
             <Text style={[styles.brefText,{marginTop:6}]}>需要上传出租的资质</Text>
             <TouchableOpacity style={{width:'50%'}}  onPress={()=>this.selectImage('rentalAptitudeX','houseCertificationInfo')}>
               {
                 this.state.rentalAptitudeX?
-                <Image source={{uri: this.state.rentalAptitudeX,width:50,height:50}} style={{marginTop:10}}></Image>
+                <Image source={{uri: this.state.rentalAptitudeX,width:60,height:60}} style={{marginTop:10}}></Image>
                 :
-                <View style={[styles.rect,{marginTop:13,width:50,height:50}]}>
+                <View style={[styles.rect,{marginTop:13,width:60,height:60}]}>
                   <Image source={require('../../assets/images/plus_s_icon.png')}></Image>
                   <Text style={{marginTop:2,color:'#b3b3b3'}}>添加</Text>
                 </View>
@@ -143,14 +145,14 @@ import {
           </Item>
 
           <Item>
-            <Text>消防资质</Text>
+            <Text style={styles.title}>消防资质</Text>
             <Text style={[styles.brefText,{marginTop:6}]}>需要上传房源的消防资质</Text>
             <TouchableOpacity style={{width:'50%'}}  onPress={()=>this.selectImage('fireAptitudeX','houseCertificationInfo')}>
               {
                 this.state.fireAptitudeX?
-                <Image source={{uri: this.state.fireAptitudeX,width:50,height:50}} style={{marginTop:10}}></Image>
+                <Image source={{uri: this.state.fireAptitudeX,width:60,height:60}} style={{marginTop:10}}></Image>
                 :
-                <View style={[styles.rect,{marginTop:13,width:50,height:50}]}>
+                <View style={[styles.rect,{marginTop:13,width:60,height:60}]}>
                   <Image source={require('../../assets/images/plus_s_icon.png')}></Image>
                   <Text style={{marginTop:2,color:'#b3b3b3'}}>添加</Text>
                 </View>
@@ -159,14 +161,14 @@ import {
           </Item>
 
           <Item>
-            <Text>备案资质</Text>
+            <Text style={styles.title}>备案资质</Text>
             <Text style={[styles.brefText,{marginTop:6}]}>需要上传房源在公安局的备案资质</Text>
             <TouchableOpacity style={{width:'50%'}}  onPress={()=>this.selectImage('recordAptitudeX','houseCertificationInfo')}>
               {
                 this.state.recordAptitudeX?
-                <Image source={{uri: this.state.recordAptitudeX,width:50,height:50}} style={{marginTop:10}}></Image>
+                <Image source={{uri: this.state.recordAptitudeX,width:60,height:60}} style={{marginTop:10}}></Image>
                 :
-                <View style={[styles.rect,{marginTop:13,width:50,height:50}]}>
+                <View style={[styles.rect,{marginTop:13,width:60,height:60}]}>
                   <Image source={require('../../assets/images/plus_s_icon.png')}></Image>
                   <Text style={{marginTop:2,color:'#b3b3b3'}}>添加</Text>
                 </View>
@@ -185,9 +187,12 @@ import {
      justifyContent: 'space-between',
      alignItems:'center'
    },
+   title:{
+     fontSize: 17
+   },
    rect:{
-    width: 40,
-    height:40,
+    width: 60,
+    height:60,
     borderWidth:1,
     borderColor:'#d8d8d8',
     alignItems:'center',
@@ -195,7 +200,7 @@ import {
     backgroundColor: '#f6f6f6'
   },
    brefText:{
-     fontSize:10,
+     fontSize:14,
      color:'#808080'
    }
  })

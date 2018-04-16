@@ -24,7 +24,7 @@ export const config = {
     }
   },
   api: {
-    base: 'http://47.100.123.83/aijukex/',
+    base: 'http://47.100.123.83/aijukex/', //'http://47.100.123.83/aijukex/
     // imgupload
     uploadImage:'op/op_imgUpload', 
     // user

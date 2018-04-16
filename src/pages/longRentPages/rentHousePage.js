@@ -9,7 +9,9 @@ import {
 import { Modal} from 'antd-mobile'
 import { connect } from 'react-redux'
 import { landlordHouseDetail } from '../../reducers/longRent.redux'
-
+import InphoneXHoc from '../../hoc/inphoneXhoc'
+ 
+@InphoneXHoc
 @connect(
    state=>({longRent: state.longRent}),
    {

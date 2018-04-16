@@ -10,7 +10,9 @@ import {
  import { Button } from 'antd-mobile'
  import ViewUtils from '../../utils/viewUtils'
  import { orderDetail,getAlipayParams,cancelOrder } from '../../reducers/shopcar.redux'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  @connect(
    state => ({order: state.order}),
    {

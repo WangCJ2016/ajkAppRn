@@ -10,7 +10,7 @@ import {
  } from 'react-native'
  import { hostScenes,smartHostCtrl } from '../../reducers/ctrl.redux'
  import { connect } from 'react-redux'
-
+ 
  @connect(
    state=>({ctrl:state.ctrl}),
    {

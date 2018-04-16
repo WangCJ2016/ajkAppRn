@@ -12,7 +12,9 @@ import {
  import ViewUtils from '../utils/viewUtils'
  import RefreshListView, {RefreshState} from 'react-native-refresh-list-view'
  import BlankPage from '../components/blankPage'
+ import InphoneXHoc from '../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  @connect(
    state=>({main: state.main}),{
     intentRecord, modifyLeaseIntent,dataSuccess

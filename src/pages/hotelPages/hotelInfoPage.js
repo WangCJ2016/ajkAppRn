@@ -7,7 +7,9 @@ import {
   Linking
  } from 'react-native'
  import { Button } from 'antd-mobile'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  class HotelInfoPage extends React.Component {
    state = {  }
    render() {

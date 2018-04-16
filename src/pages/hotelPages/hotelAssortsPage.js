@@ -5,7 +5,9 @@ import {
   Image,
   StyleSheet
  } from 'react-native'
-
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
+ 
+ @InphoneXHoc
  class HotelAssortPage extends React.Component {
    state = {  }
    assortsRender() {

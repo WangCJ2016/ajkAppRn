@@ -4,6 +4,7 @@ import {
   Text,
   Image,
   TouchableHighlight,
+  Platform
  } from 'react-native'
  import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view'
  import { connect } from 'react-redux'
@@ -156,6 +157,11 @@ import {
    render() {
      return (
        <View style={{flex:1}}>
+          {
+            Platform.OS === 'ios' ? 
+            <View style={{height:10,backgroundColor:'#fff'}}></View> 
+            : null
+          }
           <ScrollableTabView
             style={{flex:1}}
             tabBarUnderlineStyle={{backgroundColor: '#ffb354', height: 2}}

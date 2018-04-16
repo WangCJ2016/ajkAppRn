@@ -9,7 +9,9 @@ import {
  import PowerWarm from '../../components/smartTestCom/powerWarn'
  import { powerRelayList,powerRelayControl,currentPower,historyPower,warmPower,addPowerWarm,modifyPowerWarm,powerRecord } from '../../reducers/longRent-hasRent.redux'
  import { connect } from 'react-redux'
-
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
+ 
+ @InphoneXHoc
  @connect(
    state=>({longRentHasRent: state.longRentHasRent,longRent:state.longRent}),
    {

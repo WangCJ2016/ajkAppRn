@@ -162,7 +162,7 @@ import {
               :null
             }
            </View>
-           <TouchableHighlight underlayColor='#aaa' onPress={()=>this.props.actionSheetHandle.show()}>
+           <TouchableHighlight underlayColor='#aaa' onPress={()=>this.props.openShow(houseDetail.detailAddress)}>
               <View style={[{height:55,},styles.flex_row_center,styles.border_bottom]}>
                   <Image source={require('../../assets/images/loc_icon2.png')}></Image>
                   <Text style={{marginLeft:15,fontSize:15}}>{houseDetail.address.split('-').slice(-2).join('-') + houseDetail.detailAddress}</Text>

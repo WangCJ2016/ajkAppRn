@@ -7,7 +7,9 @@ import {
  import { createForm } from 'rc-form'
  import { connect } from 'react-redux'
  import {idCard} from '../../reducers/user.redux'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  @connect(
    state=>state.user,
    {idCard}
@@ -27,7 +29,6 @@ import {
    }
    render() {
     const { getFieldDecorator,getFieldError,getFieldValue } = this.props.form;
-    console.log(getFieldError('name'),getFieldError('cardNo'),getFieldValue('name'))
      return (
       <View>
       <List 

@@ -13,7 +13,9 @@ import {
  import { getAlipayParams } from '../../reducers/shopcar.redux'
  import { dataSuccess } from '../../reducers/longRent.redux'
  const Item = List.Item
-
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
+ 
+ @InphoneXHoc
  @connect(
    state => ({longRent: state.longRent}),
    {
@@ -31,6 +33,7 @@ import {
    }
    handlePay() {
      const deviceOrderData = this.props.longRent.deviceOrderData
+     alert(deviceOrderData.code)
      this.props.getAlipayParams({orderCode:deviceOrderData.code,totalFee:0.01},this.handleCb)
    }
    handleCb() {

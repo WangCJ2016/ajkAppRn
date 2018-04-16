@@ -10,7 +10,9 @@ import {
  import RefreshListView, {RefreshState} from 'react-native-refresh-list-view'
 import ViewUtils from '../../utils/viewUtils';
 import BlankPage from '../../components/blankPage'
+import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  @connect(
   state => ({order: state.order}),
   {

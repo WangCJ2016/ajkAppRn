@@ -12,7 +12,9 @@ import {
  import ListCell from '../../components/listCellCom'
  import ViewUtils from '../../utils/viewUtils'
  import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  @connect(
   state => ({landlord: state.landlord}),
   {

@@ -14,11 +14,9 @@ const NavigateToMapHoc = (WrappedCom) => {
         options:['取消']
       }
       this.mapNavigation = this.mapNavigation.bind(this)
+      this.openShow = this.openShow.bind(this)
     }
     componentDidMount() {
-      this.setState({
-        actionSheetHandle: this.ActionSheet
-      })
       Linking.canOpenURL('iosamap://')
       .then(res=>{
         if(res) {
@@ -31,21 +29,29 @@ const NavigateToMapHoc = (WrappedCom) => {
           this.setState({options:[...this.state.options,'百度地图']})
          }
         })
-      Linking.canOpenURL('maps.apple')
-      .then(res=>{
-        if(res) {
-         this.setState({options:[...this.state.options,'苹果地图']})
-        }
-       })
+     
     }
-    mapNavigation(e,name) {
-      console.log(e)
+    mapNavigation(e) {
+       if(this.state.options[e] === '高德地图') {
+         Linking.openURL(`iosamap://poi?sourceApplication=applicationName&name=${this.state.address}`)
+         return 
+       }
+       if(this.state.options[e] === '百度地图') {
+        Linking.openURL(`baidumap://map/place/search?&query=${this.state.address}&src=webapp.poi.yourCompanyName.yourAppName`)
+        return 
+      }
+    }
+    openShow(address) {
+      this.ActionSheet.show()
+      this.setState({
+        address: address
+      })
     }
     render() {
      
       return (
         <View style={{flex:1}}>
-          <WrappedCom actionSheetHandle={this.state.actionSheetHandle} {...this.props}></WrappedCom>
+          <WrappedCom openShow={this.openShow.bind(this)} {...this.props}></WrappedCom>
           <ActionSheet
             ref={o => this.ActionSheet = o}
             title={title}

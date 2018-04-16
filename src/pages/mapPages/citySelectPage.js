@@ -15,7 +15,9 @@ import { pySegSort } from '../../utils/fnUtils'
 import ViewUtils from '../../utils/viewUtils'
 
 const {height}  = Dimensions.get('window')
+import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
 @connect(
   state=>({map:state.map}),
   {

@@ -7,7 +7,9 @@ import {
  import Calendar from '../../components/rn-date-picker/Calendar'
  import { connect } from 'react-redux'
  import { roomCalendar,selectDays } from '../../reducers/hotel.redux'
- 
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
+
+ @InphoneXHoc
  @connect(
    state => ({hotel: state.hotel}),
    {

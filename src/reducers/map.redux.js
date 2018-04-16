@@ -16,6 +16,7 @@ const initialState = {
     layout:'',
     addressMark:''
   },
+  city: '杭州市',
   city: {
     name: ''
   }
@@ -76,6 +77,7 @@ export function getlocation(info) {
             city:res.data.regeocode.addressComponent.city,
             district:res.data.regeocode.addressComponent.district
           }
+         
           dispatch(dataSuccess(data)) 
         }
       })

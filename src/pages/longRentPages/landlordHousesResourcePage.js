@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   Image,
   Alert,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  SafeAreaView
  } from 'react-native'
  import { connect } from 'react-redux'
  import { landlordResource,landlordHouseDetail,dataSuccess } from '../../reducers/longRent.redux'
@@ -198,11 +199,6 @@ import {
       )
       return
      }
-    //  if(order.status === 11 || order.status === 12) {
-    //   this.props.landlordHouseDetail({houseId: order.id,type:'wait'}, ()=>this.props.navigation.navigate('SignAgree'))
-    //   this.props.dataSuccess({houseStatus:order.status})
-    //  }
-     
    }
    // publishCb
    publishCb() {
@@ -248,6 +244,7 @@ import {
    }
    render() {
      return (
+      <SafeAreaView style={{flex:1}}>
        <View style={{flex:1}}>
         <ScrollableTabView
             style={{flex:1}}
@@ -329,7 +326,7 @@ import {
           </View>
         </Modal>
        </View>
-      
+       </SafeAreaView>
      )
    }
  }

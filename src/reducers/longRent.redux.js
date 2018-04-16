@@ -258,6 +258,7 @@ export function addLandlordHouse(cb) {
           console.log(res)
           if (res.status === 200 && res.data.success) {
             cb?cb():null
+            dispatch(dataSuccess({deviceOrderData: {...longRent.deviceOrderData,code: dataArr[1]}}))
           } else {
             Toast.info(res.data.msg)
           }

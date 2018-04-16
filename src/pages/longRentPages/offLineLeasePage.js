@@ -9,7 +9,9 @@ import {
  import { offlineLease } from '../../reducers/longRent-hasRent.redux'
  import { connect } from 'react-redux'
  import { dateFormat } from '../../utils/fnUtils'
-
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
+ 
+ @InphoneXHoc
  @connect(
    null,{
     offlineLease

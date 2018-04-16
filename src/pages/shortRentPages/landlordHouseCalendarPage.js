@@ -10,7 +10,9 @@ import {
  import { houseCalendar,landlordModifyHousePrice } from '../../reducers/shortRent.redux'
  import { Toast } from 'antd-mobile'
  import { dateFormat} from '../../utils/fnUtils'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  @connect(
   state => ({landlord: state.landlord}),
   {

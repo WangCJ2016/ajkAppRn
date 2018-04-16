@@ -9,6 +9,7 @@ import {
  } from 'react-native'
  import { connect } from 'react-redux'
  import { houseHostInfo } from '../../reducers/ctrl.redux'
+ import { isIphoneX } from '../../utils/fnUtils'
 
  @connect(
    state => ({ctrl:state.ctrl}),
@@ -19,7 +20,7 @@ import {
  class HomeCtrlPage extends React.Component {
    state = {  }
    componentDidMount() {
-     this.props.houseHostInfo({houseId:this.props.ctrl.hasInHouse.houseId})
+     this.props.houseHostInfo({houseId:this.props.ctrl.hasInHouse.houseId||this.props.ctrl.hasInHouse.id})
    }
    navigation(page) {
      this.props.navigation.navigate(page)
@@ -29,7 +30,7 @@ import {
        <ImageBackground style={{flex:1,backgroundColor: '#333'}} source={require('../../assets/images/homectrl_bg.png')}>
         <TouchableOpacity
           onPress={()=>this.props.navigation.goBack()}
-          style={{marginTop: 20,marginLeft: 20,padding:10,width: 40,height:40}} 
+          style={{marginTop: isIphoneX()?30:20,marginLeft: 20,padding:10,width: 40,height:40}} 
         >
           <Image style={{tintColor:'#fff'}} source={require('../../assets/images/left_arr_icon.png')}></Image>
         </TouchableOpacity>

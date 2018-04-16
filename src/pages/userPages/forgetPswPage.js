@@ -10,7 +10,9 @@ import {
  import { connect } from 'react-redux'
 import {getRegisterVerCode,register} from '../../reducers/user.redux'
 import RegisterAndPswHoc from '../../hoc/RegisterAndPswHoc'
+import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
 @RegisterAndPswHoc
  class ForgetPswPage extends React.Component {
    constructor() {

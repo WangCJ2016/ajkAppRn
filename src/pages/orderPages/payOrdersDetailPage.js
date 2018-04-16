@@ -7,7 +7,9 @@ import {
  import { connect } from 'react-redux'
  import { orderDetail } from '../../reducers/shopcar.redux'
  import ViewUtils from '../../utils/viewUtils'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  @connect(
   state => ({order: state.order}),
   {

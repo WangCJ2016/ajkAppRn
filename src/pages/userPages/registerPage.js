@@ -11,7 +11,9 @@ import {
  import { List, InputItem, Button } from 'antd-mobile'
  import GetVerCode from '../../components/getVerCode'
 import RegisterAndPswHoc from '../../hoc/RegisterAndPswHoc'
+import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
 @RegisterAndPswHoc
  class RegisterPage extends React.Component {
    constructor() {

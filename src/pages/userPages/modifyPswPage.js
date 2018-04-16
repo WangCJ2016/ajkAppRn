@@ -7,7 +7,9 @@ import {
  import { List, InputItem, Button } from 'antd-mobile'
  import { connect } from 'react-redux'
  import { changepsw } from '../../reducers/user.redux'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
 @connect(
   null,
  {changepsw}

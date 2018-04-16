@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   LayoutAnimation,
-  Dimensions
+  Dimensions,
  } from 'react-native'
  import { Checkbox,Modal,Toast } from 'antd-mobile'
  import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -19,6 +19,9 @@ import {
  import { connect } from 'react-redux'
  import { dataSuccess } from '../../reducers/longRent.redux'
  const HEIGHT = Dimensions.get('window').height
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
+ 
+ @InphoneXHoc
  @connect(
    state => ({longRent: state.longRent}),
    {
@@ -201,9 +204,9 @@ import {
                   <View style={{flexDirection:'row',flex:1,alignItems:'center'}}>
                     <Image  source={require('../../assets/images/chuanglian_icon.png')}/>
                     <Text style={[styles.font_bold,{marginLeft:5}]}>电动窗帘</Text> 
-                    <Text style={{fontSize:11,color:'#808080'}}>(可以在手机上控制窗帘开关)</Text>  
+                    <Text style={{fontSize:13,color:'#808080'}}>(可以在手机上控制窗帘开关)</Text>  
                   </View> 
-                  <Checkbox  checked={!!(this.state.wireCount>0)&&!!(this.state.wireMeter>0)} onChange={(e)=>this.setState({curtainVisible:!this.state.curtainVisible})}/>
+                  <Checkbox style={{padding:10}}  checked={!!(this.state.wireCount>0)&&!!(this.state.wireMeter>0)} onChange={(e)=>this.setState({curtainVisible:!this.state.curtainVisible})}/>
                 </View>
               )}
               contentView={()=>(
@@ -213,13 +216,13 @@ import {
                     <View style={styles.potWrap}>
                       <View style={styles.pot}></View> 
                     </View> 
-                    <Text style={[styles.content_text,{fontSize:12,marginLeft:10}]}><Text style={{color:'#ffb354'}}>窗帘电机</Text>与您一个窗户上的窗帘相关联，窗户上为一个窗帘，电机为1个；窗户上为两个窗帘，电机为2个</Text> 
+                    <Text style={[styles.content_text,{fontSize:15,marginLeft:10}]}><Text style={{color:'#ffb354'}}>窗帘电机</Text>与您一个窗户上的窗帘相关联，窗户上为一个窗帘，电机为1个；窗户上为两个窗帘，电机为2个</Text> 
                   </View>  
                   <View style={{flexDirection:'row',marginTop:10}}>
                     <View style={styles.potWrap}>
                       <View style={styles.pot}></View> 
                     </View> 
-                    <Text style={[styles.content_text,{fontSize:12,marginLeft:10}]}><Text style={{color:'#ffb354'}}>电动窗帘轨道</Text>为您窗帘的米数，不足一米按照一米去计算，如窗帘为4.6米，实际需要5米</Text> 
+                    <Text style={[styles.content_text,{fontSize:15,marginLeft:10}]}><Text style={{color:'#ffb354'}}>电动窗帘轨道</Text>为您窗帘的米数，不足一米按照一米去计算，如窗帘为4.6米，实际需要5米</Text> 
                   </View>   
                 </View>  
               )}
@@ -233,7 +236,7 @@ import {
                   <View style={{flexDirection:'row',flex:1,alignItems:'center'}}>
                     <Image  source={require('../../assets/images/kongtiao_icon.png')}/>
                     <Text style={[styles.font_bold,{marginLeft:5}]}>空调</Text> 
-                    <Text style={{fontSize:11,color:'#808080'}}>(控制空调/调节空调温度/取代空调遥控器)</Text>  
+                    <Text style={{fontSize:13,color:'#808080'}}>(控制空调/调节空调温度/取代空调遥控器)</Text>  
                   </View> 
                   <Checkbox checked={!!(this.state.airCount>0)&&!!(this.state.airInfrareCount>0)&&!!this.state.airType}  onChange={(e)=>this.setState({airVisible:!this.state.airVisible})}/>
                 </View>
@@ -245,13 +248,13 @@ import {
                     <View style={styles.potWrap}>
                       <View style={styles.pot}></View> 
                     </View> 
-                    <Text style={[styles.content_text,{fontSize:12,marginLeft:10}]}><Text style={{color:'#ffb354'}}>空调面板</Text>为添加空调必备的设备，一个空调需要一个空调面板</Text> 
+                    <Text style={[styles.content_text,{fontSize:15,marginLeft:10}]}><Text style={{color:'#ffb354'}}>空调面板</Text>为添加空调必备的设备，一个空调需要一个空调面板</Text> 
                   </View>  
                   <View style={{flexDirection:'row',marginTop:10}}>
                       <View style={styles.potWrap}>
                         <View style={styles.pot}></View> 
                       </View> 
-                    <Text style={[styles.content_text,{fontSize:12,marginLeft:10}]}><Text style={{color:'#ffb354'}}>360度红外转发器</Text>一个房间需要安装一个，可以控制这个房间的所有设备，包括电视，空调</Text> 
+                    <Text style={[styles.content_text,{fontSize:15,marginLeft:10}]}><Text style={{color:'#ffb354'}}>360度红外转发器</Text>一个房间需要安装一个，可以控制这个房间的所有设备，包括电视，空调</Text> 
                   </View>   
                 </View>  
               )}
@@ -265,7 +268,7 @@ import {
                   <View style={{flexDirection:'row',flex:1,alignItems:'center'}}>
                     <Image  source={require('../../assets/images/tv_icon1.png')}/>
                     <Text style={[styles.font_bold,{marginLeft:5}]}>电视</Text> 
-                    <Text style={{fontSize:11,color:'#808080'}}>(调节电视机顶盒/节目选择/取代电视、机顶盒遥控)</Text>  
+                    <Text style={{fontSize:13,color:'#808080'}}>(调节电视机顶盒/节目选择/取代电视、机顶盒遥控)</Text>  
                   </View> 
                   <Checkbox checked={!!(this.state.tvCount>0)&&!!(this.state.tvInfrareCount>0)}  onChange={(e)=>this.setState({tvVisible:!this.state.tvVisible})} />
                 </View>
@@ -277,13 +280,13 @@ import {
                     <View style={styles.potWrap}>
                       <View style={styles.pot}></View> 
                     </View> 
-                    <Text style={[styles.content_text,{fontSize:12,marginLeft:10}]}><Text style={{color:'#ffb354'}}>电视面板</Text>为智能电视必备设备，一个电视需要一个电视面板</Text> 
+                    <Text style={[styles.content_text,{fontSize:15,marginLeft:10}]}><Text style={{color:'#ffb354'}}>电视面板</Text>为智能电视必备设备，一个电视需要一个电视面板</Text> 
                   </View>  
                   <View style={{flexDirection:'row',marginTop:10}}>
                       <View style={styles.potWrap}>
                         <View style={styles.pot}></View> 
                       </View> 
-                    <Text style={[styles.content_text,{fontSize:12,marginLeft:10}]}><Text style={{color:'#ffb354'}}>360度红外转发器</Text>一个房间需要安装一个，可以控制这个房间的所有设备，包括电视，空调</Text> 
+                    <Text style={[styles.content_text,{fontSize:15,marginLeft:10}]}><Text style={{color:'#ffb354'}}>360度红外转发器</Text>一个房间需要安装一个，可以控制这个房间的所有设备，包括电视，空调</Text> 
                   </View>   
                 </View>  
               )}
@@ -297,7 +300,7 @@ import {
                   <View style={{flexDirection:'row',flex:1,alignItems:'center'}}>
                     <Image  source={require('../../assets/images/ligth_icon.png')}/>
                     <Text style={[styles.font_bold,{marginLeft:5}]}>灯</Text> 
-                    <Text style={{fontSize:11,color:'#808080'}}>(可以在手机上控制灯的开关)</Text>  
+                    <Text style={{fontSize:13,color:'#808080'}}>(可以在手机上控制灯的开关)</Text>  
                   </View> 
                   <Checkbox checked={!!(this.state.lightCount>0)&&!!(this.state.lightInfrareCount)}  onChange={(e)=>this.setState({lightVisible:!this.state.lightVisible})}/>
                 </View>
@@ -309,13 +312,13 @@ import {
                     <View style={styles.potWrap}>
                       <View style={styles.pot}></View> 
                     </View> 
-                    <Text style={[styles.content_text,{fontSize:12,marginLeft:10}]}><Text style={{color:'#ffb354'}}>智能开关面板</Text>为智能灯必备设备，一个房间需要一个开关面板</Text> 
+                    <Text style={[styles.content_text,{fontSize:15,marginLeft:10}]}><Text style={{color:'#ffb354'}}>智能开关面板</Text>为智能灯必备设备，一个房间需要一个开关面板</Text> 
                   </View>  
                   <View style={{flexDirection:'row',marginTop:10}}>
                       <View style={styles.potWrap}>
                         <View style={styles.pot}></View> 
                       </View> 
-                    <Text style={[styles.content_text,{fontSize:12,marginLeft:10}]}><Text style={{color:'#ffb354'}}>红外人体感应器</Text>为在红外人体感应器感应到有人的状态下，自动开启灯光，检测到无人，在指定时间内自动关闭，一个房间需要一个红外人体感应</Text> 
+                    <Text style={[styles.content_text,{fontSize:15,marginLeft:10}]}><Text style={{color:'#ffb354'}}>红外人体感应器</Text>为在红外人体感应器感应到有人的状态下，自动开启灯光，检测到无人，在指定时间内自动关闭，一个房间需要一个红外人体感应</Text> 
                   </View>   
                 </View>  
               )}
@@ -470,8 +473,7 @@ import {
           </View> 
          
         </Modal>
-
-      </View>
+       </View>
      )
    }
  }
@@ -509,7 +511,8 @@ import {
    },
    content_text:{
      color:'#555',
-     fontSize:15
+     fontSize:15,
+     lineHeight:20
    },
    title:{
      marginLeft:15,

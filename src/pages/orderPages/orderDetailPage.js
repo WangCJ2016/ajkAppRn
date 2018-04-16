@@ -12,7 +12,9 @@ import { Button } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { checkHouseWhetherReserve,submitOrder } from '../../reducers/shopcar.redux'
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
- 
+import InphoneXHoc from '../../hoc/inphoneXhoc'
+
+@InphoneXHoc
 @connect(
   state => ({shopcar: state.order}),
   { checkHouseWhetherReserve,submitOrder }

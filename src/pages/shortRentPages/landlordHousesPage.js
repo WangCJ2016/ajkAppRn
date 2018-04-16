@@ -10,7 +10,9 @@ import {
  import { landlordHouses,pageSuccess } from '../../reducers/shortRent.redux'
  import RefreshListView, {RefreshState} from 'react-native-refresh-list-view'
  import ListCell from '../../components/listCellCom'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  @connect(
   state => ({landlord: state.landlord}),
   {

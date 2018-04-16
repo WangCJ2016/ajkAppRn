@@ -7,7 +7,9 @@ import {
  import { createForm } from 'rc-form'
  import { connect } from 'react-redux'
 import {login} from '../../reducers/user.redux'
+import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
 @connect(
   state=>state.user,
   {

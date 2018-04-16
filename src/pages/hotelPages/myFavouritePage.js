@@ -7,7 +7,9 @@ import {
  import {customerCollectPage} from '../../reducers/customer.redux'
  import RefreshListView, {RefreshState} from 'react-native-refresh-list-view'
  import ViewUtils from '../../utils/viewUtils'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  @connect(
    state => ({customer: state.customer}),
    {

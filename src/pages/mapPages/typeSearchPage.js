@@ -10,6 +10,9 @@ import {
  import { connect } from 'react-redux'
  import ViewUtils from '../../utils/viewUtils'
 const ITEM_HEIGHT = 40
+import InphoneXHoc from '../../hoc/inphoneXhoc'
+
+ @InphoneXHoc
 @connect(
   state=>({map:state.map}),
   {

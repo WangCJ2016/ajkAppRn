@@ -16,7 +16,9 @@ import {
  const CANCEL_INDEX = 0
  const options = [ '取消','长租', '短租', '酒店', ]
  const title = '选择房源类型'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
 @connect(
   state => ({map: state.map}),
   {

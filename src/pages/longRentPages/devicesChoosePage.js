@@ -9,8 +9,9 @@ import {
  const Item = List.Item
  import { connect } from 'react-redux'
  import { houseAssorts,dataSuccess } from '../../reducers/longRent.redux'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
-
+ @InphoneXHoc
  @connect(
    state => ({longRent: state.longRent}),
    {

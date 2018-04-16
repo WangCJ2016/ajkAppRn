@@ -176,10 +176,10 @@ export function getAlipayParams(info,cb) {
       params:{orderCode:info.orderCode,fee:info.totalFee}
       })
       .then(res => {
-        Alipay.pay(res.data.dataObject).then(function(data){
+        Alipay.pay(res.data.dataObject).then(function(data){      
           cb?cb():null
         }, function (err) {
-          
+    
         });
       })
     }

@@ -9,6 +9,7 @@ import {
   StyleSheet,
   TextInput,
   Dimensions,
+  SafeAreaView
  } from 'react-native'
  import DropdownMenu from '../../components/react-native-dropdown-menu/DropdownMenu'
  import NavigationBar from '../../components/navigationBar'
@@ -20,6 +21,7 @@ import {
  import ViewUtils from '../../utils/viewUtils'
  import HotelModal from '../../components/nearbySearchModal/hotelModal'
  const WIDTH = Dimensions.get('window').width
+ import { isIphoneX } from '../../utils/fnUtils'
 
  @connect(
    state => ({map:state.map}),
@@ -46,6 +48,7 @@ import {
    }
    static navigationOptions = ({navigation,screenProps}) => ({  
     header: <NavigationBar
+      style={{paddingTop: isIphoneX()?20:0}}
       titleView={
         <View style={styles.searchView}>
           <Image style={{marginLeft:10,marginRight:15}} source={require('../../assets/images/sousuo.png')}></Image>
@@ -177,10 +180,11 @@ import {
       return item.id
     }
    render() {
-     console.log(this.props)
+     
      const data = [["地址区域"],['酒店','长租','短租'],["更多筛选"]];
      return (
-      <View style={{flex: 1}} >
+      <SafeAreaView style={{flex: 1}}>
+       <View style={{flex: 1}} >
         
         <DropdownMenu style={{flex: 1}}
           bgColor={"#fff"}                            //the background color of the head, default is grey
@@ -258,6 +262,7 @@ import {
         ></HotelModal>  
         
       </View>
+      </SafeAreaView>
      )
   }
 }

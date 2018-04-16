@@ -7,13 +7,16 @@ import {
  import ViewUtils from '../utils/viewUtils'
  import { connect } from 'react-redux'
  import { intentRecord,delLeaseIntent } from '../reducers/main.redux'
+ import { dataSuccess as dataSuccessCtrl} from '../reducers/ctrl.redux'
  import BlankPage from '../components/blankPage'
  import RefreshListView, {RefreshState} from 'react-native-refresh-list-view'
  import { Toast } from 'antd-mobile'
- 
+ import InphoneXHoc from '../hoc/inphoneXhoc'
+
+ @InphoneXHoc
  @connect(
   state=>({main: state.main}),{
-   intentRecord,delLeaseIntent
+   intentRecord,delLeaseIntent,dataSuccessCtrl
   }
 )
  class CustomerIntentPage extends React.Component {
@@ -37,6 +40,7 @@ import {
   }
   handlePress(order) {
     if(order.status === 3) {
+      this.props.dataSuccessCtrl({hasInHouse:order.house})
       this.props.navigation.navigate('HomeCtrl')
       return
     }

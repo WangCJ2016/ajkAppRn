@@ -10,7 +10,8 @@ import {
   RefreshControl,
   ActivityIndicator,
   TouchableWithoutFeedback,
-  TouchableOpacity
+  TouchableOpacity,
+  SafeAreaView
  } from 'react-native'
  import { connect } from 'react-redux'
  import { homeBanner, homeHotelPage } from '../reducers/main.redux'
@@ -19,8 +20,10 @@ import {
  import ImageSlider from 'react-native-image-slider'
  import ViewUtils from '../utils/viewUtils'
  import * as wechat from 'react-native-wechat'
+ import { isIphoneX } from '../utils/fnUtils'
  var Geolocation = require('Geolocation');
 
+ 
  @connect(
    state=>({main: state.main,map:state.map}),
    {
@@ -38,16 +41,16 @@ import {
    componentDidMount() {
      this.props.getInfo(()=>this.props.navigation.navigate('Login'))
      this.props.homeBanner({
-       level:0
-     })
-     this.props.homeBanner({
+        level:0
+      })
+      this.props.homeBanner({
       level:1
-    })
-    this.props.homeHotelPage({
-      pageNo: 1,
-      pageSize: 5,
-      address: encodeURI('杭州市')
-    })
+     })
+      this.props.homeHotelPage({
+        pageNo: 1,
+        pageSize: 5,
+        address: encodeURI('杭州市')
+      })
     wechat.registerApp('wxd95f6c725d62cb33')
     Geolocation.getCurrentPosition(location=>{
       var result = "速度：" + location.coords.speed +
@@ -60,7 +63,22 @@ import {
             "\n时间戳：" + location.timestamp;
       this.props.gpsConvert({locations:location.coords.longitude+','+location.coords.latitude})
     })
-    
+   }
+   componentWillReceiveProps(nextProps) {
+     if(nextProps.map.city!==this.props.map.city) {
+      this.props.homeBanner({
+        level:0
+      })
+      this.props.homeBanner({
+       level:1
+     })
+     this.props.homeHotelPage({
+       pageNo: 1,
+       pageSize: 5,
+       address: encodeURI(nextProps.map.city?nextProps.map.city:'杭州市')
+     })
+     }
+     
    }
    imageSilderRender() {
      const arr = this.props.main.level0Banners.map(item=>item.picture)
@@ -149,6 +167,7 @@ import {
    }
    render() {
      return (
+      
        <View>
           <Animated.View style={[styles.fix_top,{
             opacity:this.state.xTop.interpolate({
@@ -208,8 +227,8 @@ import {
               />:null
             }
           </ScrollView>
-       </View>
-       
+        </View>
+  
      )
    }
  }
@@ -252,6 +271,7 @@ import {
      color: '#bfbfbf',
      fontSize: 16,
      lineHeight:40,
+     marginTop: isIphoneX()?10:0
    }
  })
  

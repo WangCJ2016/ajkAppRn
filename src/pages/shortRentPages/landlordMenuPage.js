@@ -9,7 +9,9 @@ import {
  } from 'react-native'
  import {connect} from 'react-redux'
  import {getInfo} from '../../reducers/user.redux'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
 @connect(
   state => ({user:state.user}),
   {getInfo}

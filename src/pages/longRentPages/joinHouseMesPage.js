@@ -8,7 +8,8 @@ import {
   StyleSheet,
   TouchableHighlight,
   DeviceEventEmitter,
-  Alert
+  Alert,
+  SafeAreaView
  } from 'react-native'
  import  { List,Checkbox, TextareaItem, Button, Picker, InputItem, Modal,Toast } from 'antd-mobile'
  import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -135,15 +136,8 @@ import {
         }})
       }
     })
-    if(this.props.longRent.houseStatus === 1||this.props.longRent.houseStatus === 12) {
-      this.props.modifyLandlordHouse(()=>{
-        this.props.navigation.navigate('PayInfo');
-        this.setState({
-          visible: true
-        })
-      return 
-      })
-    }
+    
+    
     if(this.props.longRent.houseStatus === 5||this.props.longRent.houseStatus === 2 || this.props.longRent.houseStatus === 11 ) {
       this.props.modifyLandlordHouse(()=>{this.props.navigation.goBack();DeviceEventEmitter.emit('REFRESH')})
       return 
@@ -165,11 +159,14 @@ import {
         payType: this.state.payType
       }
     })
-    if(this.props.longRent.houseStatus === 5 || this.props.longRent.houseStatus === 11 ||this.props.longRent.houseStatus === 12) {
-      this.props.modifyLandlordHouse(()=>{this.props.navigation.goBack();DeviceEventEmitter.emit('REFRESH')})
+
+    if(this.props.longRent.houseStatus === 1||this.props.longRent.houseStatus === 12) {
+      this.props.modifyLandlordHouse(()=>{
+        this.props.navigation.navigate('PayInfo');
+      })
       return 
     }
-    
+
     this.props.addLandlordHouse(()=>{this.props.navigation.navigate('PayInfo');DeviceEventEmitter.emit('REFRESH')})
    }
    payTypeChange(payType,e) {
@@ -202,8 +199,10 @@ import {
     )
    }
    render() {
+      
      const { getFieldProps,getFieldError } = this.props.form
      return (
+      <SafeAreaView style={{flex:1}}>
        <View style={{flex:1}}>
        {
         this.props.longRent.houseStatus===1||this.props.longRent.houseStatus===12?
@@ -456,6 +455,7 @@ import {
           </Modal>
          </KeyboardAwareScrollView>
        </View>
+       </SafeAreaView>
      )
    }
  }

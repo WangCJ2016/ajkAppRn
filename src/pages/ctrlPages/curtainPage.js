@@ -12,7 +12,7 @@ import {
  import { connect } from 'react-redux'
 
  const { width,height } = Dimensions.get('window')
-
+ 
  @connect(
    state => ({ctrl: state.ctrl}),
    {

@@ -9,7 +9,9 @@ import {
   TouchableOpacity
  } from 'react-native'
  import ImageSlider from 'react-native-image-slider'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  class HotelPicPage extends React.Component {
    constructor() {
      super()

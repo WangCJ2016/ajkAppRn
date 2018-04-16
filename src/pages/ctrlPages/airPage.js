@@ -13,7 +13,7 @@ import {
  import ViewSlider from '../../components/ViewSlider/viewSlider'
 
  const { width,height } = Dimensions.get('window')
-
+ 
  @connect(
   state=>({ctrl:state.ctrl}),
   {

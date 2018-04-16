@@ -13,9 +13,11 @@ import {
  import ImagePicker from 'react-native-image-picker'
  import { connect } from 'react-redux'
  import { imgUpload,dataSuccess,becomLandlord } from '../../reducers/longRent.redux'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
+
 
  const Item = List.Item
- 
+ @InphoneXHoc 
  @connect(
   state=>({longRent: state.longRent}),
   {

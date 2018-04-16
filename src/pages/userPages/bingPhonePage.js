@@ -9,7 +9,9 @@ import {
  import GetVerCode from '../../components/getVerCode'
  import { List,InputItem,Button } from 'antd-mobile'
 import RegisterAndPswHoc from '../../hoc/RegisterAndPswHoc'
+import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
 @RegisterAndPswHoc
  class BindPhonePage extends React.Component {
    constructor() {

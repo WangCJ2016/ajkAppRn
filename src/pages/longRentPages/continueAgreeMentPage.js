@@ -9,7 +9,9 @@ import {
  import { dateFormat } from '../../utils/fnUtils'
  import { connect } from 'react-redux'
 import { renewProtocol,renewContract } from '../../reducers/longRent-hasRent.redux'
+import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+@InphoneXHoc
 @connect(
   state=>({longRentHasRent: state.longRentHasRent}),
   {

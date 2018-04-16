@@ -17,7 +17,9 @@ import {
  import SwipeList from 'react-native-smooth-swipe-list'
  const CheckboxItem = Checkbox.CheckboxItem;
 const HEIGHT = Dimensions.get('window').height
+import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
 @connect(
   state => ({shopcar:state.order}),
   {shopCarList,shopCardel,houseCheckBox,hotelCheckBox,checkboxAll}

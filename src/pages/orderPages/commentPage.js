@@ -10,7 +10,9 @@ import {
  import { Button } from 'antd-mobile'
  import { connect } from 'react-redux'
  import { customerFeedBack } from '../../reducers/shopcar.redux'
+ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
+ @InphoneXHoc
  @connect(
   null,
   {
