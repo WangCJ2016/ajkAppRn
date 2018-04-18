@@ -9,13 +9,16 @@ import {
   Dimensions,
  } from 'react-native'
  import { Button } from 'antd-mobile'
- import ImagePicker from 'react-native-image-picker'
  import { connect } from 'react-redux'
  import { imgUpload,delPic,dataSuccess } from '../../reducers/longRent.redux'
  import InphoneXHoc from '../../hoc/inphoneXhoc'
-
+ import ImagePicker from 'react-native-image-crop-picker'
+ import ActionSheet from 'react-native-actionsheet'
+ import ImageActionSheetHoc from '../../hoc/imageActionSheetHoc'
  const {width} = Dimensions.get('window')
  
+
+
  @InphoneXHoc
  @connect(
   state=>({longRent: state.longRent}),
@@ -23,51 +26,38 @@ import {
     delPic,imgUpload,dataSuccess
   }
 )
+@ImageActionSheetHoc
  class AddPicPage extends React.Component {
-  static navigationOptions = ({navigation,screenProps}) => ({  
-    headerTitle:'添加照片',
-   })
+   
    constructor(props) {
      super(props)
-    
+     this.showActionSheet = this.showActionSheet.bind(this)
      this.selectImage = this.selectImage.bind(this)
      this.del = this.del.bind(this)
    }
-   
-   selectImage(fileName) {
-   
-    var options = {
-      title: '添加图片',
-      cancelButtonTitle: '取消',
-      takePhotoButtonTitle:'拍照',
-      chooseFromLibraryButtonTitle:'选择相册',
-      quality:0.75,
-      allowsEditing: true,
-      storageOptions: {
-        skipBackup: true,
-        path: 'images'
-      },
-    };
-    ImagePicker.showImagePicker(options,(response) => {
-      if (response.didCancel) {
-        return
-      }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
-      }
-      else {
-        let source
-        if (Platform.OS === 'android') {
-            source = {uri: response.uri, isStatic: true}
-        } else {
-            source = {uri: response.uri.replace('file://', ''), isStatic: true}
-        }
-        this.props.imgUpload(source.uri,fileName,'rentHouseInfo')
-      }
-    });
+   showActionSheet() {
+    this.props.ActionSheet.show()
+  }
+   selectImage(e) {
+     if(e === 1) {
+        ImagePicker.openCamera({
+          compressImageQuality: 0.1
+        }).then(image => {
+          alert(JSON.stringify(image))
+          this.props.imgUpload(image.path,'cameraImg','rentHouseInfo')
+        });
+     }
+      if(e === 2) {
+        ImagePicker.openPicker({
+          multiple: true,
+          compressImageQuality: 0.1
+        }).then(images => {
+          images.forEach(img=>{
+            this.props.imgUpload(img.path,img.filename,'rentHouseInfo')
+          })
+        });
+    }
+ 
    }
    del(pic) {
      this.props.delPic(pic)
@@ -106,7 +96,7 @@ import {
             </View>
           }
            <View style={{padding:10,backgroundColor:'#fff'}}>
-             <Button type='primary' onClick={this.selectImage.bind(this,'picture')}>添加照片</Button>
+             <Button type='primary' onClick={this.showActionSheet}>添加照片</Button>
            </View>
        </View>
      )

@@ -2,14 +2,15 @@ import React from 'react'
 import { 
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  SafeAreaView
  } from 'react-native'
  import { List, Radio, InputItem, Toast } from 'antd-mobile'
  import { connect } from 'react-redux'
  import { addPowerWarm } from '../../reducers/longRent-hasRent.redux'
  import { createForm } from 'rc-form'
  import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
- import InphoneXHoc from '../../hoc/inphoneXhoc'
+
  const RadioItem = Radio.RadioItem
  const data = [
   { value: 'light', label: '灯' },
@@ -22,7 +23,7 @@ import {
   { value: 'other', label: '其他' },
 ];
 
-@InphoneXHoc
+
 @connect(
   state=>({longRentHasRent:state.longRentHasRent}),{
     addPowerWarm
@@ -79,6 +80,7 @@ import {
    render() {
      const { getFieldProps } = this.props.form;
      return (
+      <SafeAreaView style={{flex:1}}>
        <KeyboardAwareScrollView>
         <List renderHeader={() => '预警设备选择'}>
           {data.map(i => (
@@ -110,6 +112,7 @@ import {
           >持续时间</InputItem>
         </List>
        </KeyboardAwareScrollView>
+       </SafeAreaView>
      )
    }
  }

@@ -5,16 +5,15 @@ import {
   takeSnapshot,
   Image,
   TouchableOpacity,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  SafeAreaView
  } from 'react-native'
 import { DatePicker,List,Toast } from 'antd-mobile'
 import { uploadImage } from '../../reducers/user.redux'
 import {connect} from 'react-redux'
 import { modifyLeaseIntent } from '../../reducers/main.redux'
 import { dateFormat } from '../../utils/fnUtils'
-import InphoneXHoc from '../../hoc/inphoneXhoc'
 
-@InphoneXHoc
 @connect(
   null,{
     uploadImage,modifyLeaseIntent
@@ -66,7 +65,7 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
    }
    render() {
      return (
-       <View>
+       <SafeAreaView style={{flex:1}}>
         <View ref={(constract)=>this.constract = constract}>
           <DatePicker
               value={this.state.startTime}
@@ -84,7 +83,7 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
           </DatePicker>
         </View>
         <Image source={{uri: this.state.uri,width:200,height:400}}></Image>
-       </View>
+       </SafeAreaView>
      )
    }
  }

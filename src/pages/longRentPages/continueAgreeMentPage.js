@@ -4,14 +4,13 @@ import {
   Text,
   ImageBackground,
   TouchableOpacity,
+  SafeAreaView
  } from 'react-native'
  import { DatePicker,List,Picker,Toast } from 'antd-mobile'
  import { dateFormat } from '../../utils/fnUtils'
  import { connect } from 'react-redux'
 import { renewProtocol,renewContract } from '../../reducers/longRent-hasRent.redux'
-import InphoneXHoc from '../../hoc/inphoneXhoc'
 
-@InphoneXHoc
 @connect(
   state=>({longRentHasRent: state.longRentHasRent}),
   {
@@ -58,20 +57,23 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
    }
    render() {
      return (
-       <View style={{alignItems:'center'}}>
-        <ImageBackground style={{width:'100%',height:160}} source={require('../../assets/images/continue_bg.png')}>
-           <Text style={{padding:10,color:'#fff',fontSize:17,lineHeight:25}}>您与房客当前签订和租赁合同到期时间为2018年5月15日，请选择续签的日期。</Text>
-           <Text style={{textAlign:'center',fontSize:18,color:'#fff'}}>{this.state.date}</Text>
-        </ImageBackground>
-        <DatePicker
-          value={new Date}
-          minDate={new Date}
-          format='YYYY-MM-DD'
-          onChange={this.onDateChange.bind(this)}
-          mode='date'>
-          <CustomChildren></CustomChildren> 
-        </DatePicker>
-       </View>
+      <SafeAreaView style={{flex:1}}>
+        <View style={{alignItems:'center'}}>
+          <ImageBackground style={{width:'100%',height:160}} source={require('../../assets/images/continue_bg.png')}>
+            <Text style={{padding:10,color:'#fff',fontSize:17,lineHeight:25}}>您与房客当前签订和租赁合同到期时间为2018年5月15日，请选择续签的日期。</Text>
+            <Text style={{textAlign:'center',fontSize:18,color:'#fff'}}>{this.state.date}</Text>
+          </ImageBackground>
+          <DatePicker
+            value={new Date}
+            minDate={new Date}
+            format='YYYY-MM-DD'
+            onChange={this.onDateChange.bind(this)}
+            mode='date'>
+            <CustomChildren></CustomChildren> 
+          </DatePicker>
+        </View>
+      </SafeAreaView>
+       
      )
    }
  }

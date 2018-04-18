@@ -6,7 +6,8 @@ import {
   ImageBackground,
   TouchableOpacity,
   StyleSheet,
-  Button
+  Button,
+  SafeAreaView
  } from 'react-native'
  import ScrollableTabView,{ScrollableTabBar} from 'react-native-scrollable-tab-view'
  import Calendar from '../../components/rn-date-picker/Calendar'
@@ -16,9 +17,7 @@ import { dateFormat } from '../../utils/fnUtils'
 import viewUtils from '../../utils/viewUtils'
 import Modal from "react-native-modal"
 const ITEM_HEIGHT = 117
-import InphoneXHoc from '../../hoc/inphoneXhoc'
 
- @InphoneXHoc
 @connect(
   state => ({landlord: state.landlord}),
   {
@@ -113,6 +112,7 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
    render() {
      return (
+      <SafeAreaView style={{flex:1}}>
        <View style={{flex:1}}>
           <ScrollableTabView
               style={{flex:1}}
@@ -189,9 +189,8 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
               </View>
             </View>
           </Modal>
-         
        </View>
-      
+       </SafeAreaView>
      )
    }
  }

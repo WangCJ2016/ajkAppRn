@@ -4,14 +4,13 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  SafeAreaView
  } from 'react-native'
 import { Modal} from 'antd-mobile'
 import { connect } from 'react-redux'
 import { landlordHouseDetail } from '../../reducers/longRent.redux'
-import InphoneXHoc from '../../hoc/inphoneXhoc'
- 
-@InphoneXHoc
+
 @connect(
    state=>({longRent: state.longRent}),
    {
@@ -40,9 +39,10 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
    }
    render() {
     const houseDetail = this.props.longRent.landlordHouseDetailalready
-    console.log(houseDetail)
+   
      return (
       houseDetail?
+      <SafeAreaView style={{flex:1}}>
        <ScrollView>
            <View style={styles.flex_row_center}>
              <View style={styles.leftIcon}></View>
@@ -107,7 +107,9 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
              <Text style={{fontSize:15,lineHeight:20,paddingBottom:10}}>您与当前的租客签署的租赁合同未到期，继续操作将违反租赁合同，需要支付违约金</Text>
            </View>
           </Modal>
-       </ScrollView>:null
+       </ScrollView>
+       </SafeAreaView>
+       :null
      )
    }
  }

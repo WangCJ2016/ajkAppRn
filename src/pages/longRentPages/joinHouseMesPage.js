@@ -9,7 +9,7 @@ import {
   TouchableHighlight,
   DeviceEventEmitter,
   Alert,
-  SafeAreaView
+  SafeAreaView,
  } from 'react-native'
  import  { List,Checkbox, TextareaItem, Button, Picker, InputItem, Modal,Toast } from 'antd-mobile'
  import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -28,15 +28,7 @@ import {
    }
  )
  class JoinHouseMesPage1 extends React.Component {
-  static navigationOptions = ({navigation,screenProps}) => ({  
-    headerRight: (  
-        <TouchableOpacity onPress={()=>navigation.state.params.handleNext()}>
-          <View style={{flexDirection:'row',alignItems:'center',marginRight:10}}>
-            <Text style={{color:'#ffb354',fontSize:16}}>发布</Text>
-          </View>
-        </TouchableOpacity>
-     ),  
-   })
+  
    
    constructor(props) {
      super(props)
@@ -69,6 +61,7 @@ import {
      this.props.navigation.setParams({handleNext:this.handleNext})
      this.props.houseAssorts()
    }
+   
    componentWillReceiveProps(nextProps) {
       this.setState({
         assorts: nextProps.longRent.rentHouseInfo.assorts.split(','),
@@ -199,7 +192,6 @@ import {
     )
    }
    render() {
-      
      const { getFieldProps,getFieldError } = this.props.form
      return (
       <SafeAreaView style={{flex:1}}>
@@ -466,5 +458,14 @@ import {
    }
  })
 
+ JoinHouseMesPage1.navigationOptions = ({navigation,screenProps}) => ({  
+  headerRight: (  
+      <TouchableOpacity onPress={()=>navigation.state.params.handleNext()}>
+        <View style={{flexDirection:'row',alignItems:'center',marginRight:10}}>
+          <Text style={{color:'#ffb354',fontSize:16}}>发布</Text>
+        </View>
+      </TouchableOpacity>
+   ),  
+ })
  const JoinHouseMesPage = createForm()(JoinHouseMesPage1)
  export default JoinHouseMesPage

@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Alert,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  SafeAreaView
  } from 'react-native'
  import { Button,Modal,Toast,NoticeBar } from 'antd-mobile'
  import { connect } from 'react-redux'
@@ -96,7 +97,8 @@ import {
      const houseDetail = this.props.longRent.landlordHouseDetailwait
      return (
        houseDetail?
-       <View style={{flex:1}}>
+       <SafeAreaView style={{flex:1}}>
+        <View style={{flex:1}}>
         {
           this.props.longRent.DetailFromSource==='landlord'?
           <ActionButton buttonColor="rgba(231,76,60,1)" style={{zIndex:99}}>
@@ -250,7 +252,8 @@ import {
           onClose={()=>this.setState({picModalVisible: false})}
         />
 
-       </View>
+        </View>
+       </SafeAreaView>
        :null
      )
    }

@@ -423,6 +423,9 @@ export const AppNavigator = StackNavigator({
   },
   AddPic: {
     screen:AddPicPage,
+    navigationOptions: {
+      title:'添加照片',
+    }
   },
   HouseInfo:{
     screen: HouseInfoPage

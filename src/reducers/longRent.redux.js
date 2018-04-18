@@ -54,6 +54,7 @@ const DATASUCCESS = '[longRent] DATASUCCESS'
 const DELPIC = '[longRent] DELPIC'
 const HOUSESUCCESS = '[longRent] HOUSESUCCESS'
 const INTIALSTATE = '[longRent] INTIALSTATE'
+const ADDIMG = '[longRent] ADDIMG'
 
 export function longRent(state=initialState,action) {
   switch (action.type) {
@@ -62,6 +63,11 @@ export function longRent(state=initialState,action) {
     }
     case INTIALSTATE: {
       return initialState
+    }
+    case ADDIMG: {
+      const rentHouseInfo = state.rentHouseInfo
+      const pictures = rentHouseInfo.pictures!==''?(rentHouseInfo.pictures+','+action.payload):action.payload
+      return {...state, rentHouseInfo: {...state.rentHouseInfo,pictures: pictures}}
     }
     case DELPIC: {
       const pictures = delPicHandle(action.payload,state)
@@ -120,6 +126,12 @@ export function landlordResource(info,cb) {
   }
 }
 
+function imgUploadSuccess(uri) {
+  return {
+    type: ADDIMG,
+    payload: uri
+  }
+}
 export function imgUpload(fileUrl,fileName,parentTag) {
   return (dispatch,getState) => {
     const parentData = getState().longRent[parentTag]
@@ -139,11 +151,10 @@ export function imgUpload(fileUrl,fileName,parentTag) {
     })
     .then(res=>res.json())
     .then(res=>{
+      console.log(res)
       if(res.success) {
         if(parentTag === 'rentHouseInfo') {
-          dispatch(dataSuccess({[parentTag]:{...parentData,pictures: 
-            (parentData.pictures!==''?(parentData.pictures+','+res.dataObject):res.dataObject) 
-          }}))
+          dispatch(imgUploadSuccess(res.dataObject))
         } else {
           dispatch(dataSuccess({[parentTag]:{...parentData,[fileName]: res.dataObject}}))
         }

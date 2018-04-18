@@ -6,24 +6,25 @@ import {
   TouchableOpacity,
   TextInput,
   StyleSheet,
-  Platform
+  Platform,
+  SafeAreaView
  } from 'react-native'
  import { List, InputItem,Toast } from 'antd-mobile'
  import { createForm } from 'rc-form'
- import ImagePicker from 'react-native-image-picker'
+ import ImagePicker from 'react-native-image-crop-picker'
  import { connect } from 'react-redux'
  import { imgUpload,dataSuccess,becomLandlord } from '../../reducers/longRent.redux'
- import InphoneXHoc from '../../hoc/inphoneXhoc'
-
+ import ImageActionSheetHoc from '../../hoc/imageActionSheetHoc'
 
  const Item = List.Item
- @InphoneXHoc 
+ 
  @connect(
   state=>({longRent: state.longRent}),
   {
     imgUpload,dataSuccess,becomLandlord
   }
 )
+@ImageActionSheetHoc
  class IDInfoPage1 extends React.Component {
    constructor(props) {
      super(props)
@@ -71,43 +72,32 @@ import {
        }
      })
    }
-   selectImage(fileName,parentTag) {
-    var options = {
-      title: '添加图片',
-      cancelButtonTitle: '取消',
-      takePhotoButtonTitle:'拍照',
-      chooseFromLibraryButtonTitle:'选择相册',
-      quality:0.75,
-      allowsEditing: true,
-      storageOptions: {
-        skipBackup: true,
-        path: 'images'
-      },
-    };
-    ImagePicker.showImagePicker(options,(response) => {
-      if (response.didCancel) {
-        return
-      }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
-      }
-      else {
-        let source
-        if (Platform.OS === 'android') {
-            source = {uri: response.uri, isStatic: true}
-        } else {
-            source = {uri: response.uri.replace('file://', ''), isStatic: true}
-        }
-        this.props.imgUpload(source.uri,fileName,parentTag)
-      }
-    });
-   }
+   showActionSheet() {
+    this.props.ActionSheet.show()
+  }
+    selectImage(e) {
+      if(e === 1) {
+        ImagePicker.openCamera({
+          compressImageQuality: 0.1,
+          cropping:true
+        }).then(image => {
+          this.props.imgUpload(image.path,this.type,'idInfo')
+        });
+    }
+      if(e === 2) {
+        ImagePicker.openPicker({
+          compressImageQuality: 0.1,
+          cropping:true
+        }).then(images => {
+          this.props.imgUpload(images.path,this.type,'idInfo')
+        });
+      } 
+    }
+
    render() {
     const { getFieldProps,getFieldError } = this.props.form
      return (
+      <SafeAreaView style={{flex:1}}>
        <List>
        
         <InputItem
@@ -146,7 +136,7 @@ import {
           <Text>身份证</Text>
           <View style={{marginTop:10,flexDirection:'row',}}>
             <View style={{marginRight:15}}>
-              <TouchableOpacity onPress={()=>this.selectImage('cardPictureFront','idInfo')}>
+              <TouchableOpacity onPress={()=>{this.showActionSheet();this.type='cardPictureFront'}}>
                   <View style={[styles.rect]}>
                     {
                       this.state.cardPictureFront?
@@ -159,7 +149,9 @@ import {
               <Text style={{marginTop:6,textAlign:'center',color:'#b3b3b3'}}>正面</Text>
             </View>
             <View>
-              <TouchableOpacity onPress={()=>this.selectImage('cardPictureBack','idInfo')}>
+              <TouchableOpacity 
+                onPress={()=>{this.showActionSheet();this.type='cardPictureBack'}}
+               >
                   <View style={styles.rect}>
                   {
                     this.state.cardPictureBack?
@@ -174,6 +166,7 @@ import {
           </View>
         </Item>
        </List>
+       </SafeAreaView>
      )
    }
  }

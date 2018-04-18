@@ -3,14 +3,13 @@ import {
   View,
   Text,
   TouchableOpacity,
+  SafeAreaView
  } from 'react-native'
 import { DatePicker,List,TextareaItem,Toast } from 'antd-mobile'
 import { stopContract,modifyLandlordHouseStatus } from '../../reducers/longRent-hasRent.redux'
 import { connect } from 'react-redux'
 import { dateFormat } from '../../utils/fnUtils'
-import InphoneXHoc from '../../hoc/inphoneXhoc'
 
-@InphoneXHoc 
 @connect(
    state=>({longRentHasRent:state.longRentHasRent}),
    {
@@ -57,6 +56,7 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
    }
    render() {
      return (
+      <SafeAreaView style={{flex:1}}>
        <View>
         <DatePicker
           value={this.state.date}
@@ -69,6 +69,7 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
            <TextareaItem rows={10} placeholder='填写终止原因' onChange={(e)=>this.setState({reason: e})}></TextareaItem>
         </View>
        </View>
+       </SafeAreaView>
      )
    }
  }

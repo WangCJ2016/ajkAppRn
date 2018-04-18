@@ -7,13 +7,14 @@ import {
   TextInput,
   StyleSheet,
   Platform,
-  ScrollView
+  ScrollView,
+  SafeAreaView
  } from 'react-native'
  import { List} from 'antd-mobile'
- import ImagePicker from 'react-native-image-picker'
+ import ImagePicker from 'react-native-image-crop-picker'
  import { connect } from 'react-redux'
  import { imgUpload } from '../../reducers/longRent.redux'
- import InphoneXHoc from '../../hoc/inphoneXhoc'
+ import ImageActionSheetHoc from '../../hoc/imageActionSheetHoc'
  
  const Item = List.Item
  const directionStyles = [
@@ -30,14 +31,15 @@ import {
 ]
 
 
-@InphoneXHoc
+// @InphoneXHoc
 @connect(
   state=>({longRent: state.longRent}),
   {
     imgUpload
   }
 )
- class HouseCertificationPage extends React.Component {
+@ImageActionSheetHoc
+class HouseCertificationPage extends React.Component {
   static navigationOptions = ({navigation,screenProps}) => ({   
     title :'资质证明',
     headerRight: (  
@@ -59,6 +61,7 @@ import {
      }
      this.selectImage = this.selectImage.bind(this)
      this.onSubmit = this.onSubmit.bind(this)
+     this.showActionSheet = this.showActionSheet.bind(this)
    }
    componentDidMount() {
      this.props.navigation.setParams({submit:this.onSubmit})
@@ -74,48 +77,36 @@ import {
    onSubmit() {
     this.props.navigation.navigate('JoinHouseMes')
    }
-   selectImage(fileName,parentTag) {
-    var options = {
-      title: '添加图片',
-      cancelButtonTitle: '取消',
-      takePhotoButtonTitle:'拍照',
-      chooseFromLibraryButtonTitle:'选择相册',
-      quality:0.75,
-      allowsEditing: true,
-      storageOptions: {
-        skipBackup: true,
-        path: 'images'
-      },
-    };
-    ImagePicker.showImagePicker(options,(response) => {
-      if (response.didCancel) {
-        return
-      }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
-      }
-      else {
-        let source
-        if (Platform.OS === 'android') {
-            source = {uri: response.uri, isStatic: true}
-        } else {
-            source = {uri: response.uri.replace('file://', ''), isStatic: true}
-        }
-        this.props.imgUpload(source.uri,fileName,parentTag)
-      }
-    });
+   showActionSheet() {
+    this.props.ActionSheet.show()
+  }
+   selectImage(e) {
+    if(e === 1) {
+      ImagePicker.openCamera({
+        compressImageQuality: 0.1,
+        cropping:true
+      }).then(image => {
+        this.props.imgUpload(image.path,this.type,'houseCertificationInfo')
+      });
    }
+    if(e === 2) {
+      ImagePicker.openPicker({
+        compressImageQuality: 0.1,
+        cropping:true
+      }).then(images => {
+        this.props.imgUpload(images.path,this.type,'houseCertificationInfo')
+      });
+    } 
+  }
    render() {
      return (
+      <SafeAreaView style={{flex:1}}>
        <ScrollView>
           <List>
           <Item>
             <Text style={styles.title}>房产证</Text>
             <Text style={[styles.brefText,{marginTop:6}]}>房产证要看到产权人的姓名</Text>
-            <TouchableOpacity style={{width:'50%'}} onPress={()=>this.selectImage('certificateX','houseCertificationInfo')}>
+            <TouchableOpacity style={{width:'50%'}} onPress={()=>{this.showActionSheet();this.type='certificateX'}}>
               {
                 this.state.certificateX?
                 <Image source={{uri: this.state.certificateX,width:60,height:60}} style={{marginTop:10}}></Image>
@@ -131,7 +122,7 @@ import {
           <Item>
             <Text style={styles.title}>出租资质</Text>
             <Text style={[styles.brefText,{marginTop:6}]}>需要上传出租的资质</Text>
-            <TouchableOpacity style={{width:'50%'}}  onPress={()=>this.selectImage('rentalAptitudeX','houseCertificationInfo')}>
+            <TouchableOpacity style={{width:'50%'}} onPress={()=>{this.showActionSheet();this.type='rentalAptitudeX'}} >
               {
                 this.state.rentalAptitudeX?
                 <Image source={{uri: this.state.rentalAptitudeX,width:60,height:60}} style={{marginTop:10}}></Image>
@@ -147,7 +138,8 @@ import {
           <Item>
             <Text style={styles.title}>消防资质</Text>
             <Text style={[styles.brefText,{marginTop:6}]}>需要上传房源的消防资质</Text>
-            <TouchableOpacity style={{width:'50%'}}  onPress={()=>this.selectImage('fireAptitudeX','houseCertificationInfo')}>
+            <TouchableOpacity style={{width:'50%'}}  
+              onPress={()=>{this.showActionSheet();this.type='fireAptitudeX'}}>
               {
                 this.state.fireAptitudeX?
                 <Image source={{uri: this.state.fireAptitudeX,width:60,height:60}} style={{marginTop:10}}></Image>
@@ -163,7 +155,9 @@ import {
           <Item>
             <Text style={styles.title}>备案资质</Text>
             <Text style={[styles.brefText,{marginTop:6}]}>需要上传房源在公安局的备案资质</Text>
-            <TouchableOpacity style={{width:'50%'}}  onPress={()=>this.selectImage('recordAptitudeX','houseCertificationInfo')}>
+            <TouchableOpacity style={{width:'50%'}}  
+              onPress={()=>{this.showActionSheet();this.type='recordAptitudeX'}}
+            >
               {
                 this.state.recordAptitudeX?
                 <Image source={{uri: this.state.recordAptitudeX,width:60,height:60}} style={{marginTop:10}}></Image>
@@ -176,8 +170,8 @@ import {
             </TouchableOpacity>
           </Item>
           </List>
-
-       </ScrollView>
+        </ScrollView>
+       </SafeAreaView>
      )
    }
  }

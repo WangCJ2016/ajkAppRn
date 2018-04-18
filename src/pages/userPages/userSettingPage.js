@@ -9,14 +9,16 @@ import {
  } from 'react-native'
  import { List,Button } from 'antd-mobile'
  import ViewUtils from '../../utils/viewUtils'
- import ImagePicker from 'react-native-image-picker'
+ import ImagePicker from 'react-native-image-crop-picker'
  import {uploadImage,modifyHeadPicture} from '../../reducers/user.redux'
  import { intialStateSuccess as intialStateSuccessLongRent } from '../../reducers/longRent.redux'
  import {initialStateSuccess as intialStateSuccessUser} from '../../reducers/user.redux'
  import { connect } from 'react-redux'
-
+ 
  import InphoneXHoc from '../../hoc/inphoneXhoc'
+ import ImageActionSheetHoc from '../../hoc/imageActionSheetHoc'
 
+ 
  @InphoneXHoc
  @connect(
    null,
@@ -24,6 +26,7 @@ import {
     uploadImage,modifyHeadPicture,intialStateSuccessLongRent,intialStateSuccessUser
    }
  )
+ @ImageActionSheetHoc
  class UserSettingPage extends React.Component {
    constructor() {
      super()
@@ -51,54 +54,25 @@ import {
     )
    }
    showActionSheet() {
-      ActionSheetIOS.showActionSheetWithOptions({
-        options: BUTTONS,
-        cancelButtonIndex: CANCEL_INDEX,
-      },
-      (buttonIndex) => {
-        if(buttonIndex===1) {
-          this.selectImagefromLibrary()
-        }
-      })
+      this.props.ActionSheet.show()
     }
-   selectImage() {
-    var options = {
-      title: '选择头像',
-      cancelButtonTitle: '取消',
-      takePhotoButtonTitle:'拍照',
-      chooseFromLibraryButtonTitle:'选择相册',
-      quality:0.75,
-      allowsEditing: true,
-      storageOptions: {
-        skipBackup: true,
-        path: 'images'
-      },
-      permissionDenied:{
-        title:'修改头像',
-        reTryTitle:'重试',
-        okTitle:'使用'
-      }
-    };
-    ImagePicker.showImagePicker(options,(response) => {
-      if (response.didCancel) {
-        return
-      }
-      else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
-      }
-      else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
-      }
-      else {
-        let source
-        if (Platform.OS === 'android') {
-            source = {uri: response.uri, isStatic: true}
-        } else {
-            source = {uri: response.uri.replace('file://', ''), isStatic: true}
-        }
-        this.props.uploadImage(source.uri,response.fileName,this.props.modifyHeadPicture)
-      }
-    });
+   selectImage(e) {
+    if(e === 1) {
+      ImagePicker.openCamera({
+        compressImageQuality: 0.1,
+        cropping:true
+      }).then(image => {
+        this.props.uploadImage(image.path,'headImg',this.props.modifyHeadPicture)
+      });
+   }
+    if(e === 2) {
+      ImagePicker.openPicker({
+        compressImageQuality: 0.1,
+        cropping:true
+      }).then(images => {
+        this.props.uploadImage(images.path,images.fileName,this.props.modifyHeadPicture)
+      });
+    } 
   }
    
   goPage(page) {
@@ -113,7 +87,7 @@ import {
             
             <List style={{marginTop:10}}>
               {ViewUtils.itemhasArr(require('../../assets/images/ic_user.png'),'身份绑定',()=>this.goPage('Identify'),20,22)}
-              {ViewUtils.itemhasArr(require('../../assets/images/ic_head.png'),'头像更换',this.selectImage,22,22)}
+              {ViewUtils.itemhasArr(require('../../assets/images/ic_head.png'),'头像更换',this.showActionSheet,22,22)}
             </List>
             <List style={{marginTop:10}}>
               {ViewUtils.itemhasArr(require('../../assets/images/ic_tel.png'),'手机绑定',()=>this.goPage('BindPhone'),14,27)}

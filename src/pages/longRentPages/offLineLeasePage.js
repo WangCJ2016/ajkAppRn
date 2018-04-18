@@ -3,15 +3,14 @@ import {
   View,
   Text,
   TouchableOpacity,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  SafeAreaView
  } from 'react-native'
  import {DatePicker,List,InputItem,Toast} from 'antd-mobile'
  import { offlineLease } from '../../reducers/longRent-hasRent.redux'
  import { connect } from 'react-redux'
  import { dateFormat } from '../../utils/fnUtils'
- import InphoneXHoc from '../../hoc/inphoneXhoc'
- 
- @InphoneXHoc
+
  @connect(
    null,{
     offlineLease
@@ -71,7 +70,8 @@ import {
     }
     render() {
       return (
-        <View>
+        <SafeAreaView style={{flex:1}}>
+         <View>
          <List>
           <InputItem
             placeholder="请输入租客电话"
@@ -97,6 +97,7 @@ import {
           </DatePicker>
           </List>
         </View>
+        </SafeAreaView>
       )
     }
  }

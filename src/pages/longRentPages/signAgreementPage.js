@@ -11,6 +11,7 @@ import {
   Keyboard,
   LayoutAnimation,
   Dimensions,
+  SafeAreaView
  } from 'react-native'
  import { Checkbox,Modal,Toast } from 'antd-mobile'
  import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -19,9 +20,9 @@ import {
  import { connect } from 'react-redux'
  import { dataSuccess } from '../../reducers/longRent.redux'
  const HEIGHT = Dimensions.get('window').height
- import InphoneXHoc from '../../hoc/inphoneXhoc'
+ //import InphoneXHoc from '../../hoc/inphoneXhoc'
  
- @InphoneXHoc
+ //@InphoneXHoc
  @connect(
    state => ({longRent: state.longRent}),
    {
@@ -156,6 +157,7 @@ import {
   }
    render() {
      return (
+      <SafeAreaView style={{flex:1}}>
        <View style={{flex:1}}>
         <ScrollView style={{flex:1,paddingLeft:10,paddingRight:10}}>
             <Card 
@@ -474,6 +476,7 @@ import {
          
         </Modal>
        </View>
+       </SafeAreaView>
      )
    }
  }

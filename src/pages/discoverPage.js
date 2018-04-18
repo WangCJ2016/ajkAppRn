@@ -1,61 +1,77 @@
-import React from 'react'
-import { 
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  LayoutAnimation,
+import React, { Component } from 'react';
+import {
+  AppRegistry,
   StyleSheet,
-  Linking
- } from 'react-native'
- import { connect }  from 'react-redux'
- import { Popover, NavBar,Icon } from 'antd-mobile'
- import ActionButton from 'react-native-action-button'
- const Item = Popover.Item
+  Text,
+  View
+} from 'react-native';
+
+import ImagePicker from 'react-native-image-crop-picker'
  class DiscoverPage extends React.Component {
  
-constructor(props) {
-   super(props);
-   this.state = {//设置初值
-    visible: true,
-    selected: '',
-   };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      num: 0,
+      selected: [],
+    };
+  }
+ componentDidMount() {
+  ImagePicker.openPicker({
+    multiple: true
+  }).then(images => {
+    console.log(images);
+  });
  }
-_textUp(){
-  LayoutAnimation.spring();
-  this.setState({marginBottom:this.state.marginBottom + 100})
-  
-}
-componentDidMount() {
-  Linking.canOpenURL('maps.apple')
-  .then(res=>alert(res))
-}
+  getSelectedImages(images, current) {
+    var num = images.length;
+
+    this.setState({
+      num: num,
+      selected: images,
+    });
+
+    console.log(current);
+    console.log(this.state.selected);
+  }
+
 render() {
   return (
-    <View style={{flex:1,justifyContent:'center'}}>
-      <ActionButton buttonColor="rgba(231,76,60,1)">
-        <ActionButton.Item buttonColor='#9b59b6' title="New Task" onPress={() =>{
-          Linking.openURL('maps.apple/')
-          .catch(e => console.log(e))
-        }}>
-          <Text>fd</Text>
-        </ActionButton.Item>
-        <ActionButton.Item buttonColor='#3498db' title="Notifications" onPress={() => {}}>
-        <Text>fd</Text>
-        </ActionButton.Item>
-        <ActionButton.Item buttonColor='#1abc9c' title="All Tasks" onPress={() => {}}>
-        <Text>fd</Text>
-        </ActionButton.Item>
-      </ActionButton>
+    <View style={styles.container}>
+    <View style={styles.content}>
+      <Text style={styles.text}>
+        <Text style={styles.bold}> {this.state.num} </Text> images has been selected
+      </Text>
     </View>
+    
+  </View>
   );
-}
+  }
  }
  const styles = StyleSheet.create({
-  actionButtonIcon: {
-    fontSize: 20,
-    height: 22,
-    color: 'white',
+  container: {
+    flex: 1,
+    backgroundColor: '#F6AE2D',
+  },
+  content: {
+    marginTop: 15,
+    height: 50,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  text: {
+    fontSize: 16,
+    alignItems: 'center',
+    color: '#fff',
+  },
+  bold: {
+    fontWeight: 'bold',
+  },
+  info: {
+    fontSize: 12,
   },
 });
  export default DiscoverPage
