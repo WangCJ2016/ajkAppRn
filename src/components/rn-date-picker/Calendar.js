@@ -10,7 +10,6 @@ import PropTypes from 'prop-types'
 const { width } = Dimensions.get('window');
 
 import Month from './Month';
-import { prototype } from 'react-native-image-picker';
 
 
 export default class Calendar extends React.Component {

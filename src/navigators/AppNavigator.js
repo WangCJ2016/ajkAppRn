@@ -101,7 +101,6 @@ const MainScreenNavigator = TabNavigator({
     screen: DiscoverPage,
     navigationOptions: {
       title:'发现',
-      header: false,
       tabBarLabel: '发现',
       tabBarIcon: ({focused,tintColor}) =>(
         <Image style={[{tintColor: tintColor},{width:22,height:22}]} source={require('../assets/images/discover.png')} />
