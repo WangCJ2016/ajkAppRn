@@ -139,7 +139,7 @@ const MainScreenNavigator = TabNavigator({
     },
    },
    },{
-    initialRouteName:'MainPage',
+    initialRouteName:'DiscoverPage',
     lazy:true,
     TabBarTop: true,
     swipeEnabled:false,

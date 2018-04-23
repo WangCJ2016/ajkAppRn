@@ -88,8 +88,8 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
    }
    submit() {
     const roomDetail = this.props.hotel.hotelRoomDetail
-     if(this.props.hotel.selectDaysObj&&this.props.hotel.selectDaysObj.selectTo) {
-       this.props.addshopCar({houseId:roomDetail.id,inTime:dateFormat(this.props.hotel.selectDaysObj.selectFrom)+' 00:00:00',leaveTime:dateFormat(this.props.hotel.selectDaysObj.selectTo)+' 00:00:00'},this.props.navigation)
+     if(this.props.hotel.selectDaysObj) {
+       this.props.addshopCar({houseId:roomDetail.id,inTime:dateFormat(this.props.hotel.selectDaysObj.startDateStr)+' 00:00:00',leaveTime:dateFormat(this.props.hotel.selectDaysObj.endDateStr)+' 00:00:00'},this.props.navigation)
      }else {
       this.props.navigation.navigate('RoomDateSelect',{houseId:roomDetail.id,defaultPrice:roomDetail.defaultPrice})
      }

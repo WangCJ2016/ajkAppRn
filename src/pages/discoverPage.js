@@ -21,13 +21,14 @@ import Calendar from 'react-native-whc-calendar'
      })
    }
     render() {
-      console.log(this.state.obj)
       return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={this.handleClick.bind(this)}>
-              <Text>buttom</Text>
-            </TouchableOpacity>
-           
+            <Calendar
+             months={6}
+             selectedColor='#ffb354'
+             highlightColor='#ffb354'
+            
+              />
         </View>
       );
       }

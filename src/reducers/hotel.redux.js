@@ -178,6 +178,7 @@ export function roomCalendar(info) {
       params:{...info,token:token}
       })
       .then(res => {
+        console.log(res)
         if (res.status === 200 && res.data.success) {
           let arr = []
           res.data.dataObject.forEach(month => {
