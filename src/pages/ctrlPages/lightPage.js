@@ -46,7 +46,6 @@ import { getDeviceWays,smartHostCtrl,dataSuccess } from '../../reducers/ctrl.red
        let lights = this.props.ctrl.deviceWays
         const lightNow = event.data.split('.WAY.')
         const changelihts = lights.map((light, index) => {
-          //console.log()
           if(light.wayId === lightNow[0]) {
             let newLight = light
             newLight.status = lightNow[1]
@@ -89,7 +88,6 @@ import { getDeviceWays,smartHostCtrl,dataSuccess } from '../../reducers/ctrl.red
     if(whichquadrant === 1){
       this.currentAngle = Math.atan(to)/( 2 * Math.PI ) * 360 +180
     }
-    console.log(this.currentAngle)
   }
   onPanResponderMove(evt, gestureState) {
     this.raduisX=100
@@ -209,20 +207,22 @@ import { getDeviceWays,smartHostCtrl,dataSuccess } from '../../reducers/ctrl.red
   }
   lightClick(light) {
     const houseHostInfo = this.props.ctrl.houseHostInfo
-    const deviceWays = this.props.ctrl.deviceWays
-    .map(_light=>{
-      if(_light.wayId === light.wayId) {
-        _light.status = _light.status==='OFF'?'ON':'OFF'
-      }
-      return _light
-    })
-    this.props.dataSuccess({deviceWays:deviceWays})
+    const status = light.status==='OFF'?'ON':'OFF'
     this.props.smartHostCtrl({
       houseId: houseHostInfo.houseId,
       deviceType: 'SWITCH',
-      actionType: light.status==='OFF'?'ON':'OFF',
+      actionType: status,
       wayId: light.wayId,
       brightness: 80
+    },()=>{
+      const deviceWays = this.props.ctrl.deviceWays
+      .map(_light=>{
+        if(_light.wayId === light.wayId) {
+          _light.status = status
+        }
+        return _light
+      })
+      this.props.dataSuccess({deviceWays:deviceWays})
     })
   }
    render() {

@@ -282,7 +282,6 @@ import {
      ))
    }
    render() {
-    console.log(this.props)
      return (
       <ViewSlider
         renderView={this.renderView}

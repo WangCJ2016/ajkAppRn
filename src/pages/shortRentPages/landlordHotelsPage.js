@@ -34,10 +34,7 @@ import {
   componentDidMount() {
     this.onHeaderRefresh()
   }
-  componentWillUnmount() {
-    console.log(1)
-   // this.props.payOrdersSuccess({payOrders:null})
-  }
+ 
   renderCell(data) {
     const order = data.item
     return (

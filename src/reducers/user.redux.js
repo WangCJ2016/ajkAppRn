@@ -55,7 +55,7 @@ export function getInfo(cb) {
           params:{customerId:res[0][1],token:res[1][1]}
           })
           .then(res => {
-            console.log(res)
+           
             if (res.status === 200 && res.data.success) {
               dispatch(authSuccess(res.data.dataObject))
             } 
@@ -88,7 +88,7 @@ export function login({
       }
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           AsyncStorage.setItem('id',res.data.dataObject.id)
           AsyncStorage.setItem('token',res.data.dataObject.token)
@@ -96,7 +96,7 @@ export function login({
             params:{customerId:res.data.dataObject.id,token:res.data.dataObject.token}
             })
             .then(res => {
-              console.log(res)
+             
               if (res.status === 200 && res.data.success) {
                 dispatch(authSuccess(res.data.dataObject))
                 cb?cb():null
@@ -118,7 +118,7 @@ export function getRegisterVerCode(info) {
       params:info
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           setTimeout(()=>{
             Toast.info('已获取', 1);
@@ -138,7 +138,7 @@ export function register(info,navigation) {
       params:info
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           navigation?navigation.goBack():null
         } else{
@@ -156,7 +156,7 @@ export function forgetPsw(info,navigation) {
       params:info
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           navigation?navigation.goBack():null
         } else{
@@ -176,7 +176,7 @@ export function idCard(info,navigation) {
       params:{...info,token: token,customerId: customerId}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           setTimeout(()=>{
             Toast.info('绑定成功', 1);
@@ -199,7 +199,7 @@ export function bingPhoneCode(info) {
       params:{...info,customerId:customerId,token:token}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           setTimeout(()=>{
             Toast.info('已获取', 1);
@@ -221,7 +221,7 @@ export function bingPhone(info,navigation) {
       params:{...info,customerId:customerId,token:token}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           setTimeout(()=>{
             Toast.info('绑定成功', 1);
@@ -251,7 +251,7 @@ export function modifyHeadPicture(info) {
       params:{pciture:info,customerId:customerId,token:token}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           setTimeout(()=>{
             Toast.info('头像修改成功', 1);
@@ -281,7 +281,7 @@ export function uploadImage(source,name,cb) {
           body: formData,
       }).then((response) => response.json())
           .then((responseData)=> {
-              console.log(responseData,cb)
+              
               if(responseData.success) {
                 cb?cb(responseData.dataObject):null
               }
@@ -302,7 +302,7 @@ export function changepsw(info,navigation) {
       params:{...info,customerId:customerId,token:token}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           setTimeout(()=>{
             Toast.info('修改成功', 1);

@@ -54,7 +54,6 @@ export function getDeviceWays(info) {
         params:{...info,token:user.token}
       })
       .then(res => {
-        console.log(res)
         if(res.status === 200) {
            dispatch(dataSuccess({deviceWays:res.data.dataObject.ways}))
         }
@@ -64,14 +63,15 @@ export function getDeviceWays(info) {
 
 // ctrl
 export function smartHostCtrl(info,cb) {
-  return dispatch => {
+  return (dispatch,getState) => {
     const token = getState().user.token
+    const serverId = getState().ctrl.houseHostInfo.serverId
     axios.get(config.api.base+config.api.smartHostCtrl, {
-        params:{...info,token:token}
+        params:{...info,serverId: serverId,token:token}
       })
       .then(res => {
-        console.log(res)
-        if(res.succuess) {
+        console.log(info,res)
+        if(res.data.success) {
           cb?cb():null
         }
       })
@@ -85,7 +85,6 @@ export function hostScenes(info) {
         params:{...info,token:token}
       })
       .then(res => {
-        console.log(res)
         if(res.status === 200) {
           dispatch(dataSuccess({scenes:res.data.dataObject.filter(model=>model.name.indexOf('情景')>-1)}))
        }
@@ -100,7 +99,6 @@ export function tvDevicesInfo(info) {
         params:{...info,token:token}
       })
       .then(res => {
-        console.log(res)
         if(res.status === 200) {
           const tvInfo = []
           for (const i in res.data.dataObject) {
@@ -127,19 +125,21 @@ export function queryDeviceType(info) {
             deviceType:res.data.dataObject,
             ip:houseHostInfo.ip,
             houseId:houseHostInfo.houseId
-          })(dispatch)
+          })(dispatch,getState)
        }
       })
   }
 }
 //light
 export function ctrlHostDeviceByType(info) {
+  console.log(info)
   return (dispatch,getState) => {
     const token = getState().user.token
     axios.get(config.api.base+config.api.ctrlHostDeviceByType, {
         params:{...info,token:token}
       })
       .then(res => {
+        console.log(res)
         let airs = []
         if(res.status === 200) {
           if(info.deviceType === 'VIRTUAL_AIR_REMOTE') {
@@ -178,7 +178,6 @@ export function ctrlHostDeviceByType(info) {
               airs.push(airInfo)
            })
           }else {
-            // console.log(res.dataObject.devices)
              res.data.dataObject.devices.forEach((air) => {
                  let airInfo = {},
                      coolWays, warmWays
@@ -210,7 +209,7 @@ export function lockData(info) {
       })
       .then(res => {
         console.log(res)
-        if(res.status === 200) {
+        if(res.data.status === 200) {
          dispatch(dataSuccess({lockDeviceId: res.data.dataObject.devices[0].deviceId}))
          
        }
@@ -225,7 +224,6 @@ export function elevatorHost(info) {
         params:{...info,token:token}
       })
       .then(res => {
-        console.log(res)
         if(res.status === 200) {
           if (res.success) {
             const data = {
@@ -252,7 +250,6 @@ export function curtainData(info) {
         params:{...info,token:token}
       })
       .then(res => {
-        console.log(res)
         if(res.status === 200) {
           let curtainsArray = []
           for(let i in res.data.dataObject.curtains) {

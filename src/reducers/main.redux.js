@@ -53,7 +53,7 @@ export function homeBanner(info) {
       params:info
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           if(info.level===0){
             dispatch(homeBannerSuccess({level0Banners:res.data.result}))
@@ -118,7 +118,7 @@ export function intentRecord(info,cb) {
       params:{...info,token:user.token,[info.type+'Id']:user.id}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           if(info.type==='landlord'){
             dispatch(intentSuccess({landlordIntentList: {pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
@@ -139,7 +139,7 @@ export function addLintent(info,cb) {
       params:{...info,token:user.token,customerId:user.id}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           cb()
         } 
@@ -154,7 +154,7 @@ export function modifyLeaseIntent(info,cb) {
       params:{...info,token:user.token}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           cb?cb():null
         } 
@@ -168,7 +168,7 @@ export function delLeaseIntent(info,cb) {
       params:{...info,token:user.token}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           cb?cb():null
         } 

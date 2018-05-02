@@ -37,14 +37,13 @@ import {
       '确定取消订单?',
       '',
       [
-        {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: '取消', onPress: () => {}, style: 'cancel'},
         {text: '确认', onPress: () => this.props.cancelOrder({orderCode:this.props.order.orderDetail.orderCode})},
       ],
       { cancelable: false }
     )
    }
    render() {
-     console.log(this.props.order.orderDetail)
      return (
        <View style={{flex:1}}>
          <View style={[styles.flex_between,{height:40,padding:10}]}>

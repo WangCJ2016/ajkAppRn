@@ -61,7 +61,7 @@ export function hotelDetail(info) {
       params:{...info,customerId:customerId}
       })
       .then(res => {
-        console.log(res)
+        
         if (res.status === 200 && res.data.success) {
           dispatch(dataSuccess({hotelDetail:res.data.dataObject}))
         } 
@@ -96,7 +96,7 @@ export function hotelRoomList(info,type) {
       params:info
       })
       .then(res => {
-        console.log(res)
+        
         if (res.status === 200 && res.data.success) {
           dispatch(roomlistSuccess({hotelRoomList: res.data.result,pageNo:res.data.pageNo,totalPages:res.data.totalPages}))
           if(type==='load') {
@@ -124,7 +124,7 @@ export function collection(info) {
       params:{...info,customerId:customerId,token:token}
       })
       .then(res => {
-        console.log(res)
+        
         if (res.status === 200 && res.data.success) {
           Toast.info('已收藏')
           hotelDetail(info)(dispatch)
@@ -145,7 +145,7 @@ export function cancelCollection(info) {
       params:{...info,customerId:customerId,token:token}
       })
       .then(res => {
-        console.log(res)
+        
         if (res.status === 200 && res.data.success) {
           Toast.info('已取消收藏')
           dispatch(cancelCollectionSuccess()) 
@@ -162,7 +162,7 @@ export function hotelRoomDetail(info) {
       params:{...info,token:token}
       })
       .then(res => {
-        console.log(res)
+        
         if (res.status === 200 && res.data.success) {
           dispatch(dataSuccess({hotelRoomDetail: res.data.dataObject}))
         } 
@@ -178,7 +178,7 @@ export function roomCalendar(info) {
       params:{...info,token:token}
       })
       .then(res => {
-        console.log(res)
+        
         if (res.status === 200 && res.data.success) {
           let arr = []
           res.data.dataObject.forEach(month => {

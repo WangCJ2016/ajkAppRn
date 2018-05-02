@@ -44,7 +44,7 @@ export function monthIncome(info) {
       params:{...info,customerId:user.id,token:user.token}
       })
       .then(res => {
-        console.log(res)
+        
         if (res.status === 200 && res.data.success) {
           dispatch(dataSuccess({inComeLists:res.data.dataObject}))
         } 
@@ -59,7 +59,7 @@ export function dayIncome(info) {
       params:{...info,customerId:user.id,token:user.token}
       })
       .then(res => {
-        console.log(res)
+        
         if (res.status === 200 && res.data.success) {
           dispatch(dataSuccess({dayIncome:res.data.dataObject}))
         } 
@@ -81,7 +81,7 @@ export function landlordHotels(info,cb) {
       params:{...info,customerId:user.id,token:user.token}
       })
       .then(res => {
-        console.log(res)
+        
         if (res.status === 200 && res.data.success) {
           dispatch(landlordHotelsSuccess({landlordHotels: {pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
           cb?cb(RefreshState.Idle):null
@@ -106,7 +106,7 @@ export function landlordHouses(info,cb) {
       params:{...info,token:user.token,pageSize:8}
       })
       .then(res => {
-        console.log(res)
+        
         if (res.status === 200 && res.data.success) {
           dispatch(pageSuccess({landlordLists: {pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
           cb?cb(RefreshState.Idle):null
@@ -123,7 +123,7 @@ export function landlordOrders(info,cb) {
       params:{...info,token:user.token,customerId:user.id,pageSize:8}
       })
       .then(res => {
-        console.log(res)
+        
         if (res.status === 200 && res.data.success) {
           dispatch(pageSuccess({landlordLists: {pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
           cb?cb(RefreshState.Idle):null
@@ -142,7 +142,7 @@ export function houseCalendar(info) {
       params:{...info,token:user.token}
       })
       .then(res => {
-        console.log(res)
+        
         if (res.status === 200 && res.data.success) {
            let arr = []
            res.data.dataObject.forEach(monthArr => {
@@ -162,7 +162,7 @@ export function landlordModifyHousePrice(info,cb) {
       params:{...info,token:user.token}
       })
       .then(res => {
-        console.log(res)
+        
         if (res.status === 200 && res.data.success) {
           cb()
         } 

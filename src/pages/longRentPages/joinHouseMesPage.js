@@ -185,7 +185,7 @@ import {
       '确认删除此房源',
       '删除后房源将不能恢复',
       [
-        {text: '取消', onPress: () => console.log('Ask me later pressed')},
+        {text: '取消', onPress: () => {}},
         {text: '确认', onPress: () => this.props.delLandlordHouse(()=>{Toast.info('已删除');this.props.navigation.goBack();DeviceEventEmitter.emit('REFRESH')})},
       ],
       { cancelable: false }

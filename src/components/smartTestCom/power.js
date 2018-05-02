@@ -39,7 +39,6 @@ import {
      })
    }
    render() {
-     console.log(this.state.startTime)
      return (
        <ScrollView>
           <View style={{paddingLeft:40,paddingRight:40,backgroundColor:'#fff'}}>

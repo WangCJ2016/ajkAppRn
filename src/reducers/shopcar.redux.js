@@ -100,7 +100,7 @@ export function shopCardel(info) {
       params:{...info,token:token}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
            dispatch(shopCardelSuccess(info.cartIds))
           } else{
@@ -139,7 +139,7 @@ export function checkHouseWhetherReserve(info,data) {
       params:{...info,token:user.token}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           submitOrder(data)(dispatch)
           } else{
@@ -157,7 +157,7 @@ export function submitOrder(info) {
       params:{...info,token:token,customerId:customerId}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           dispatch(DataSuccess({shopCarList:[]}))
           getAlipayParams(res.data.dataObject)(dispatch)
@@ -171,7 +171,7 @@ export function submitOrder(info) {
 // alipay
 export function getAlipayParams(info,cb) {
   return dispatch => {
-    console.log(info)
+    
     axios.get(config.api.base+config.api.getAlipayParams, {
       params:{orderCode:info.orderCode,fee:info.totalFee}
       })
@@ -193,7 +193,7 @@ export function cancelOrder(info) {
       params:{...info,token:user.token}
       })
       .then(res => {
-         console.log(res)
+        
       })
     }
 }
@@ -212,7 +212,7 @@ export function payOrders(info,cb) {
       params:{...info,token:token,customerId:customerId,pageSize:6}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
             dispatch(payOrdersSuccess({payOrders: {pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
             cb?cb(RefreshState.Idle):null
@@ -229,7 +229,7 @@ export function orderDetail(info) {
       params:{...info,token:token}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
             dispatch(DataSuccess({orderDetail:res.data.dataObject}))
           } else{
@@ -247,7 +247,7 @@ export function orderBeComment(info,cb) {
       params:{...info,token:token,pageSize:6,customerId:customerId}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           cb?cb(RefreshState.Idle):null
           dispatch(payOrdersSuccess({commentHotels: {pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
@@ -266,7 +266,7 @@ export function customerFeedBack(info,cb) {
       params:{...info,token:token,customerId:customerId}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
            Toast.info('已评价')
            cb?cb():null
@@ -287,7 +287,7 @@ export function endOrders(info,cb) {
       params:{...info,token:token,customerId:customerId,pageSize:6}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
             if(info.type === 'already') {
               dispatch(payOrdersSuccess({alreadyOrders: {pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
@@ -311,7 +311,7 @@ export function consumeRecords(info,cb) {
       params:{...info,token:token,customerId:customerId,pageSize:10}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
             dispatch(payOrdersSuccess({commentHotels: {pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
             cb?cb(RefreshState.Idle):null

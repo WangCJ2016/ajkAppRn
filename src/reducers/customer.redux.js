@@ -27,7 +27,7 @@ export function modifySubOrdersStatus(info) {
       params:{...info,token:token}
       })
       .then(res => {
-        console.log(res)
+    
         if (res.status === 200 && res.data.success) {
           
         } else {
@@ -44,7 +44,7 @@ export function cancleSubOrder(info) {
       params:{...info,token:token}
       })
       .then(res => {
-        console.log(res)
+    
         if (res.status === 200 && res.data.success) {
           Toast.info('已取消')
         } 
@@ -67,7 +67,7 @@ export function  customerCollectPage(info,cb) {
       params:{...info,token:user.token,customerId:customerId}
       })
       .then(res => {
-        console.log(res)
+    
         if (res.status === 200 && res.data.success) {
           dispatch(pageDataSuccess({pageList: {pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
           cb?cb(RefreshState.Idle):null

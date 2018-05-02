@@ -40,8 +40,7 @@ import {
   }
   handlePress(order) {
     if(order.status === 3) {
-      this.props.dataSuccessCtrl({hasInHouse:order.house})
-      this.props.navigation.navigate('HomeCtrl')
+      this.props.navigation.navigate('HomeCtrl',{id:order.house.id})
       return
     }
   }

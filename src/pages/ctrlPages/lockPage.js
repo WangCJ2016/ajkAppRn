@@ -21,6 +21,7 @@ import { Toast } from 'antd-mobile'
    state = {  }
    componentDidMount() {
      const houseHostInfo = this.props.ctrl.houseHostInfo
+     
      this.props.lockData({houseId: houseHostInfo.houseId,deviceType:'FINGERPRINT_LOCK'})
    }
    door(){
@@ -33,25 +34,26 @@ import { Toast } from 'antd-mobile'
       port: houseHostInfo.port,
       serverId: houseHostInfo.serverId,
       deviceId: lockDeviceId,
-      subOrderCode: hasInHouse.subOrderCode
+      subOrderCode: hasInHouse?hasInHouse.subOrderCode:'-'
      },()=>{
       Toast.info('开锁成功')
      })
    }
    elevator(){
-    const hasInHouse = this.props.ctrl.hasInHouse
+    const hasInHouse = this.props.ctrl.houseHostInfo
     const basement = hasInHouse.basement ? hasInHouse.basement : 0
     const floor = hasInHouse.hotelHouse.floor + basement
      this.props.elevatorHost({hotelId:hotelId,floor:houseHostInfo.floor})
    }
    render() {
-     const hasInHouse = this.props.ctrl.hasInHouse
+     const hasInHouse = this.props.ctrl.houseHostInfo
+     console.log(hasInHouse)
      return (
        <ImageBackground style={{flex:1,justifyContent:'center',alignItems: 'center'}} source={require('../../assets/images/lock_bg.png')}>
          <View style={styles.roundWrap}>
             <View>
-              <Text style={styles.text}>{hasInHouse.houseName.replace(/[^0-9]/ig,"")}</Text>
-              <Text style={styles.text}>{hasInHouse.houseName.replace(/[0-9]/ig,"")}</Text>
+              <Text style={styles.text}>{hasInHouse.name}</Text>
+             
             </View>
             <TouchableOpacity 
            

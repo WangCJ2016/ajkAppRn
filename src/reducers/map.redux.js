@@ -112,13 +112,13 @@ function pageDataSuccess(data){
 }
 // 酒店搜索
 export function searchHotelPages(info,cb) {
- console.log(info)
+ 
  return dispatch=>{
    return axios.get(config.api.base+config.api.searchHotels, {
       params:{address: info.address,addressMark: info.addressMark? info.addressMark:'',price: info.price?info.price:'',keyword: info.keyword?info.keyword:''}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           dispatch(pageDataSuccess({hotelSearchList:{pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
           cb?cb(RefreshState.Idle):null
@@ -131,12 +131,12 @@ export function searchHotelPages(info,cb) {
 // 长租搜索
 export function longRentSearchPage(info,cb) {
   return dispatch=>{
-    console.log(info)
+    
     return axios.get(config.api.base+config.api.longRentSearchList, {
        params:{address: encodeURI('杭州'),...info}
        })
        .then(res => {
-         console.log(res)
+        
          if (res.status === 200 && res.data.success) {
            dispatch(pageDataSuccess({longRentSearchList:{pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
            cb?cb(RefreshState.Idle):null
@@ -152,7 +152,7 @@ export function queryNearbySearch(info,cb) {
        params:info
        })
        .then(res => {
-         console.log(res)
+        
          if (res.status === 200 && res.data.success) {
            dispatch(pageDataSuccess({searchHotels:{pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
            cb?cb(RefreshState.Idle):null
@@ -167,7 +167,7 @@ export function getAllCities() {
   return dispatch=>{
     return fetch('../assets/json/cities.json')
        .then(res => {
-         console.log(res)
+        
          if (res.status === 200 && res.data.success) {
           
          } else {

@@ -85,7 +85,6 @@ import {
     }
   }
   onChangeTab(e) {
-    console.log(e)
     this.setState({
       type:e.i===0?'ongoing':'end'
     },()=>{

@@ -118,7 +118,6 @@ export default class Calendar extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps){
-		console.log(nextProps)
 		if(nextProps.clear&&!this.props.clear) {
 			this.changeSelection(true);
 		}

@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  WebView
 } from 'react-native';
 import Calendar from 'react-native-whc-calendar'
 
@@ -23,12 +24,7 @@ import Calendar from 'react-native-whc-calendar'
     render() {
       return (
         <View style={styles.container}>
-            <Calendar
-             months={6}
-             selectedColor='#ffb354'
-             highlightColor='#ffb354'
-            
-              />
+          <WebView source={{uri:'http://m.amap.com/around/?&keywords=美食,KTV,地铁站,公交站&defaultIndex=3&defaultView=&searchRadius=5000&key=db834b40077df1a9574a3faf3cd17f72'}}></WebView>
         </View>
       );
       }

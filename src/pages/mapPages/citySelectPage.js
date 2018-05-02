@@ -60,7 +60,6 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
     return ViewUtils.ListSectionHeader(Object.keys(data)[0])
   }
   renderRow(data) {
-    //console.log(data)
     return data.map(city => (
       <TouchableHighlight
       underlayColor={'#ccc'}
@@ -85,19 +84,28 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
     ))
   }
   letterClick(letter) {
-    this.headView.measure((x,y,width,height)=>{
-      let cityNum=0
-      let scrollY = 0
-      this.state.cityData.forEach((data,index) => {
-        if(Object.keys(data)[0] === letter) {
-          scrollY=cityNum*40+height+(index)*25
-        }else{
-          cityNum+=Object.values(data)[0].length
-        }
-      })
-      this.listview.scrollTo({y:scrollY,animated: true})
+    // this.headView.measure((x,y,width,height)=>{
+    //   let cityNum=0
+    //   let scrollY = 0
+    //   this.state.cityData.forEach((data,index) => {
+    //     if(Object.keys(data)[0] === letter) {
+    //       scrollY=cityNum*40+height+(index)*25
+    //     }else{
+    //       cityNum+=Object.values(data)[0].length
+    //     }
+    //   })
+    //   this.listview.scrollTo({y:scrollY,animated: true})
+    // })
+    let cityNum=0
+    let scrollY = 0
+    this.state.cityData.forEach((data,index) => {
+      if(Object.keys(data)[0] === letter) {
+        scrollY=cityNum*40+(index)*25
+      }else{
+        cityNum+=Object.values(data)[0].length
+      }
     })
-    
+    this.listview.scrollTo({y:scrollY,animated: true})
   }
    render() {
      return (
@@ -112,7 +120,7 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
           renderSectionHeader={this.renderSectionHeader}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
-          renderHeader={()=>(<View ref={(headView)=>this.headView=headView} style={{height:300,backgroundColor:'red'}}></View>)}
+          
           >
           </ListView>   :null
          }

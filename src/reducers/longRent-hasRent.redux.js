@@ -36,7 +36,7 @@ export function renewProtocol(info,cb) {
       params: {landlordId:user.id,token: user.token,...info}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           Toast.info('已续签')
           cb()
@@ -46,13 +46,13 @@ export function renewProtocol(info,cb) {
 }
 export function modifyLandlordHouseStatus(info,cb) {
   return (dispatch,getState)=>{
-    console.log(info)
+   
     const user = getState().user
     axios.get(config.api.base+config.api.modifyLandlordHouseStatus,{
       params: {token: user.token,...info}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           cb()
         } 
@@ -67,7 +67,7 @@ export function renewContract(info,cb) {
       params: {landlordId:user.id,token: user.token,...info}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           Toast.info('已续签')
           cb()
@@ -83,7 +83,7 @@ export function stopContract(info,cb) {
       params: {landlordId:user.id,token: user.token,...info}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           cb()
         } 
@@ -98,7 +98,7 @@ export function offlineLease(info,cb) {
       params: {landlordId:user.id,token: user.token,...info}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           cb()
         } 
@@ -113,7 +113,7 @@ export function powerRelayList(info) {
       params: {token: user.token,...info}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           dispatch(dataSuccess({powerRelayList:res.data.result}))
         } 
@@ -128,7 +128,7 @@ export function powerRelayControl(info) {
       params: {token: user.token,...info}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
          const powerRelayList = longRentHasRent.powerRelayList.map(device => {
             if(device.id === info.deviceId) {
@@ -148,7 +148,7 @@ export function currentPower(info) {
       params: {token: user.token,...info}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           dispatch(dataSuccess({currentPowerList:res.data.result}))
         } 
@@ -162,7 +162,7 @@ export function historyPower(info) {
       params: {token: user.token,...info}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           dispatch(dataSuccess({currentPowerList:res.data.dataObject}))
         } 
@@ -177,7 +177,7 @@ export function warmPower(info) {
       params: {token: user.token,...info}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           dispatch(dataSuccess({warmPowerList:res.data.result}))
         } 
@@ -192,7 +192,7 @@ export function addPowerWarm(info,cb) {
       params: {token: user.token,...info}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           warmPower({powerId: info.powerId})(dispatch,getState)
           cb?cb():null
@@ -202,14 +202,14 @@ export function addPowerWarm(info,cb) {
 }
 
 export function modifyPowerWarm(info) {
-  console.log(info)
+ 
   return (dispatch,getState)=>{
     const user = getState().user
     axios.get(config.api.base+config.api.modifyPowerWarm,{
       params: {token: user.token,...info}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           warmPower({powerId: info.powerId})(dispatch,getState)
         } 
@@ -224,7 +224,7 @@ export function powerRecord(info) {
       params: {token: user.token,...info}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           dispatch(dataSuccess({powerRecordList:res.data.result}))
         } 

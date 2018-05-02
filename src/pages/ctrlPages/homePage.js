@@ -20,7 +20,7 @@ import {
  class HomeCtrlPage extends React.Component {
    state = {  }
    componentDidMount() {
-     this.props.houseHostInfo({houseId:this.props.ctrl.hasInHouse.houseId||this.props.ctrl.hasInHouse.id})
+     this.props.houseHostInfo({houseId:this.props.navigation.state.params.id})
    }
    navigation(page) {
      this.props.navigation.navigate(page)

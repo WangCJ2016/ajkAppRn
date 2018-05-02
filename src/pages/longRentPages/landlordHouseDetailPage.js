@@ -65,7 +65,7 @@ import {
       '确定要取消发布吗？',
       '',
         [
-          {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          {text: '取消', onPress: () => {}, style: 'cancel'},
           {text: '确定', onPress: () => {
             this.props.modifyLandlordHouseStatus({houseId:houseDetail.id,type:'cancle'},this.cancelCb);
           }}

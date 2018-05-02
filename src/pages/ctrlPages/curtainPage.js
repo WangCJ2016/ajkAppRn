@@ -75,7 +75,6 @@ import {
    }
    curtainCtrl(curtain,key,brightness) {
      const houseHostInfo = this.props.ctrl.houseHostInfo
-     console.log(curtain)
      this.props.smartHostCtrl({
        houseId: houseHostInfo.houseId,
        deviceType:'CURTAIN',

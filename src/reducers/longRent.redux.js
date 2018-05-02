@@ -115,7 +115,7 @@ export function landlordResource(info,cb) {
       params:{token:user.token,landlordId:user.id,...info}
       })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           dispatch(housePageSuccess({[info.type+'Pages']: {pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
           cb?cb(RefreshState.Idle):null
@@ -151,7 +151,7 @@ export function imgUpload(fileUrl,fileName,parentTag) {
     })
     .then(res=>res.json())
     .then(res=>{
-      console.log(res)
+     
       if(res.success) {
         if(parentTag === 'rentHouseInfo') {
           dispatch(imgUploadSuccess(res.dataObject))
@@ -171,7 +171,7 @@ export function houseAssorts() {
       params: {token: user.token}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           dispatch(dataSuccess({houseAssorts: res.data.dataObject}))
         } 
@@ -186,7 +186,7 @@ export function becomLandlord(info) {
       params: {customerId: user.id,...info,token:user.token}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
          
         } 
@@ -200,7 +200,7 @@ function devicesOrderSubmit(info) {
       params: info
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           resolve(res.data.dataObject.code)
         } 
@@ -215,7 +215,7 @@ export function modifyDeviceOrder() {
       params: {code: longRent.deviceOrderData.code,...longRent.deviceOrderData,token:user.token}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
          
         } else {
@@ -231,7 +231,7 @@ function landlordHouseAptitudes(info) {
       params: info
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           resolve(res.data.dataObject.id)
         } 
@@ -246,7 +246,7 @@ export function modifyHouseAptitudes() {
       params: {aptitudeId: longRent.houseCertificationInfo.id,...longRent.houseCertificationInfo,token:user.token}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
          
         } 
@@ -266,7 +266,7 @@ export function addLandlordHouse(cb) {
         params: {landlordId: user.id,code:dataArr[1],aptitudeId:dataArr[0],...rentHouseInfo}
       })
         .then(res => {
-          console.log(res)
+         
           if (res.status === 200 && res.data.success) {
             cb?cb():null
             dispatch(dataSuccess({deviceOrderData: {...longRent.deviceOrderData,code: dataArr[1]}}))
@@ -282,12 +282,12 @@ export function modifyLandlordHouse(cb) {
   return (dispatch,getState)=>{
     const user = getState().user
     const longRent = getState().longRent
-    console.log(longRent)
+   
     axios.get(config.api.base+config.api.modifyLandlordHouse,{
       params: {token: user.token,houseId:longRent.rentHouseInfo.id,...longRent.rentHouseInfo}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
          cb?cb():null
         } 
@@ -303,7 +303,7 @@ export function delLandlordHouse(cb) {
       params: {token: user.token,houseId:longRent.rentHouseInfo.id,delete:'Y'}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
          cb?cb():null
         } 
@@ -318,7 +318,7 @@ export function landlordHouseDetail(info,cb) {
       params: {...info,token: user.token}
     })
       .then(res => {
-        console.log(res)
+       
         if (res.status === 200 && res.data.success) {
           if(info.type==='wait') {
             const data = res.data.dataObject
