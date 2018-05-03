@@ -114,6 +114,7 @@ export const config = {
     ctrlHostDeviceByType:"we/we_queryHostDeviceByType",
     elevatorHost:'we/we_queryElevatorHost',
     curtainData: 'we/we_queryCurtains',
+    powerControl: 'we/we_powerControl',
     // map
     longRentSearchList: 'op/op_queryLandlordHousePage'
   }

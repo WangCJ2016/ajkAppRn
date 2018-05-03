@@ -10,9 +10,10 @@ import {
  import { connect } from 'react-redux'
 import { smartHostCtrl,lockData,elevatorHost } from '../../reducers/ctrl.redux'
 import { Toast } from 'antd-mobile'
+import { getId } from '../../reducers/user.redux'
 
 @connect(
-  state=>({ctrl:state.ctrl}),
+  state=>({ctrl:state.ctrl,customerId: getId(state)}),
   {
     smartHostCtrl,lockData,elevatorHost
   }
@@ -21,20 +22,20 @@ import { Toast } from 'antd-mobile'
    state = {  }
    componentDidMount() {
      const houseHostInfo = this.props.ctrl.houseHostInfo
-     
      this.props.lockData({houseId: houseHostInfo.houseId,deviceType:'FINGERPRINT_LOCK'})
    }
    door(){
      const houseHostInfo = this.props.ctrl.houseHostInfo
      const hasInHouse = this.props.ctrl.hasInHouse
+     console.log(hasInHouse)
      const lockDeviceId = this.props.ctrl.lockDeviceId
      this.props.smartHostCtrl({
+      customerId: this.props.customerId,
       houseId: houseHostInfo.houseId,
       deviceType: 'FINGERPRINT_LOCK',
       port: houseHostInfo.port,
-      serverId: houseHostInfo.serverId,
       deviceId: lockDeviceId,
-      subOrderCode: hasInHouse?hasInHouse.subOrderCode:'-'
+      subOrderCode: hasInHouse.subOrderCode?hasInHouse.subOrderCode:'-'
      },()=>{
       Toast.info('开锁成功')
      })
@@ -46,8 +47,8 @@ import { Toast } from 'antd-mobile'
      this.props.elevatorHost({hotelId:hotelId,floor:houseHostInfo.floor})
    }
    render() {
+    
      const hasInHouse = this.props.ctrl.houseHostInfo
-     console.log(hasInHouse)
      return (
        <ImageBackground style={{flex:1,justifyContent:'center',alignItems: 'center'}} source={require('../../assets/images/lock_bg.png')}>
          <View style={styles.roundWrap}>

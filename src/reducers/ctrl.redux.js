@@ -70,7 +70,7 @@ export function smartHostCtrl(info,cb) {
         params:{...info,serverId: serverId,token:token}
       })
       .then(res => {
-        console.log(info,res)
+        console.log({...info,serverId: serverId,token:token},res)
         if(res.data.success) {
           cb?cb():null
         }
@@ -209,7 +209,7 @@ export function lockData(info) {
       })
       .then(res => {
         console.log(res)
-        if(res.data.status === 200) {
+        if(res.data.success) {
          dispatch(dataSuccess({lockDeviceId: res.data.dataObject.devices[0].deviceId}))
          
        }

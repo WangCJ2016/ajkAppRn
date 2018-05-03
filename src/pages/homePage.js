@@ -134,6 +134,8 @@ import {
     )
   }
   hasinClick(house) {
+    console.log(house)
+    this.props.dataSuccess({hasInHouse: house})
     this.props.navigation.navigate('HomeCtrl',{id: house.houseId})
   }
   onHeaderRefresh(){

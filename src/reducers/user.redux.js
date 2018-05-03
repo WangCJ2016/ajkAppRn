@@ -319,3 +319,10 @@ export function changepsw(info,navigation) {
       })
   }
 }
+
+
+// selectors
+
+export const getId = (state) => {
+  return state.user.id
+}
