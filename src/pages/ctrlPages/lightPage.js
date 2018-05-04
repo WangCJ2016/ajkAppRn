@@ -124,6 +124,11 @@ import { getDeviceWays,smartHostCtrl,dataSuccess } from '../../reducers/ctrl.red
       onPanResponderGrant:this.onPanResponderGrant,
       onPanResponderMove:this.onPanResponderMove,
     });
+    this._gestureHandlers = {  
+      //外部正方形在“捕获期”阻止底层时间成为响应者  
+      onStartShouldSetResponderCapture: () => true,  
+      onMoveShouldSetResponderCapture: ()=> true, 
+    }  
   }
    lightRender() {
      const deviceWays = this.props.ctrl.deviceWays
@@ -132,7 +137,9 @@ import { getDeviceWays,smartHostCtrl,dataSuccess } from '../../reducers/ctrl.red
      .map((light,index) => {
        const rotate = -90 + (30*Math.round(index/2))*Math.pow(-1,index+1)
        return (
-         <View style={[styles.light,{
+         <View 
+          onStartShouldSetResponderCapture={ () => this.lightClick(light)}
+          style={[styles.light,{
           transform:[             
             {
               'rotateZ':rotate+'deg'
@@ -140,10 +147,10 @@ import { getDeviceWays,smartHostCtrl,dataSuccess } from '../../reducers/ctrl.red
           ]
          }]} key={light.id}
          >
-          <TouchableOpacity style={{
+          <TouchableOpacity style={[{
             marginTop:-120,
-           }} 
-           onPress={this.lightClick.bind(this,light)}
+           }]} 
+          
           >
           <View style={{
             transform:[             
@@ -207,7 +214,7 @@ import { getDeviceWays,smartHostCtrl,dataSuccess } from '../../reducers/ctrl.red
   }
   lightClick(light) {
     const houseHostInfo = this.props.ctrl.houseHostInfo
-    const status = light.status==='OFF'?'ON':'OFF'
+    const status = light.status==='OFF'?'OPEN':'CLOSE'
     this.props.smartHostCtrl({
       houseId: houseHostInfo.houseId,
       deviceType: 'SWITCH',

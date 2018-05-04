@@ -72,9 +72,11 @@ const { width,height } = Dimensions.get('window')
          this.state.status==='tv'?
          <View style={[styles.itemWrap,{marginLeft:20,marginRight:20,marginTop:10}]}>
          <TouchableOpacity
-          style={styles.mainBtn}
-          onPress={this.changePage}>
-            <Image source={require('../../assets/images/change_icon.png')}></Image>
+           style={styles.mainBtn}
+           onPress={this.changePage}>
+           <View style={styles.swtichBtn}>
+             <Text style={{color:'#fff'}}>TV</Text>
+           </View> 
           </TouchableOpacity>
           <TouchableOpacity
            onPress={()=>this.ctrlClick(tv,this.props.ctrl.tvStatus==='OFF'?'ON':'OFF')}
@@ -96,7 +98,9 @@ const { width,height } = Dimensions.get('window')
          <TouchableOpacity
           style={styles.mainBtn}
           onPress={this.changePage}>
-            <Image source={require('../../assets/images/change_icon.png')}></Image>
+            <View style={styles.swtichBtn}>
+              <Text style={{color:'#fff'}}>AV</Text>
+            </View> 
           </TouchableOpacity>
          <TouchableOpacity
           style={[styles.mainBtn,{backgroundColor:this.props.ctrl.tvboxStatus==='OFF'?"transparent":'#6095f0'}]}
@@ -174,13 +178,17 @@ const { width,height } = Dimensions.get('window')
               </TouchableOpacity>
             </View>
         </View>
-         <View style={[styles.itemWrap,{justifyContent: 'space-around'}]}>
+         <View style={[styles.itemWrap,{justifyContent: 'space-around',alignItems:'center'}]}>
            <TouchableHighlight
             onPress={()=>this.ctrlClick(tv,'STOP')}
              style={styles.btn}
            >
              <Text style={{color:'#fff',lineHeight:32,textAlign: 'center',fontSize:16}}>点播</Text>
            </TouchableHighlight>
+           <TouchableOpacity
+             onPress={()=>this.ctrlClick(tv,'HOME')}>
+             <Image source={require('../../assets/images/home_menu.png')}></Image>
+           </TouchableOpacity>
            <TouchableHighlight
              onPress={()=>this.ctrlClick(tv,'PLAY')}
              style={styles.btn}
@@ -261,6 +269,14 @@ const { width,height } = Dimensions.get('window')
      height:50,
      borderRadius:25,
      alignItems: 'center',
+     justifyContent:'center'
+   },
+   swtichBtn:{
+     width: 30,
+     height: 30,
+     borderRadius: 15,
+     backgroundColor: '#6095f0',
+     alignItems:'center',
      justifyContent:'center'
    },
    itemWrap:{

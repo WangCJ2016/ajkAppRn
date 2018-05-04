@@ -70,7 +70,6 @@ export function smartHostCtrl(info,cb) {
         params:{...info,serverId: serverId,token:token}
       })
       .then(res => {
-        console.log({...info,serverId: serverId,token:token},res)
         if(res.data.success) {
           cb?cb():null
         }
