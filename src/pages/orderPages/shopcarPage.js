@@ -21,7 +21,7 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
 
  @InphoneXHoc
 @connect(
-  state => ({shopcar:state.order}),
+  state => ({shopcar:state.order,user: state.user}),
   {shopCarList,shopCardel,houseCheckBox,hotelCheckBox,checkboxAll}
 )
  class ShopCarPage extends React.Component {
@@ -37,7 +37,6 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
        'section2': ['1']
      })
     }
-
     this.renderRow = this.renderRow.bind(this)
     this.renderSectionHeader = this.renderSectionHeader.bind(this)
 
@@ -47,7 +46,11 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
     this.delete = this.delete.bind(this)
   }
   componentDidMount() {
-    this.props.shopCarList()
+    if(this.props.user.token) {
+      this.props.shopCarList()
+    }else{
+      this.props.navigation.navigate('Login')
+    }
   }
   renderRow(data) {
     const rowData = data.map(house=>{
@@ -115,6 +118,7 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
     this.props.shopCardel({cartIds:id})
   }
   calculate() {
+    if(this.props.user.token)
     this.props.navigation.navigate('OrderDetail')
   }
   renderFooter() {

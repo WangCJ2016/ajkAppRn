@@ -16,9 +16,11 @@ import {
  import ListCell from '../components/listCellCom'
  import Modal from "react-native-modal"
  import { Button } from 'antd-mobile'
+ import iphonexHoc from '../hoc/inphoneXhoc'
 
+ @iphonexHoc
  @connect(
-   state => ({order: state.order,customer: state.customer,ctrl:state.ctrl}),
+   state => ({order: state.order,customer: state.customer,ctrl:state.ctrl,user:state.user}),
    {endOrders,payOrdersSuccess,modifySubOrdersStatus,cancleSubOrder,dataSuccess}
  )
  class HomePage extends React.Component {
@@ -55,7 +57,12 @@ import {
        })
    }
    componentDidMount() {
-    this.onHeaderRefresh()
+      if(this.props.user.token) {
+        cb()
+        this.onHeaderRefresh()
+      }else{
+        this.props.navigation.navigate('Login')
+      }
   }
   componentWillUnmount() {
     this.props.payOrdersSuccess({payOrders:null})
@@ -134,7 +141,6 @@ import {
     )
   }
   hasinClick(house) {
-    console.log(house)
     this.props.dataSuccess({hasInHouse: house})
     this.props.navigation.navigate('HomeCtrl',{id: house.houseId})
   }
@@ -142,7 +148,13 @@ import {
    this.setState({refreshState: RefreshState.HeaderRefreshing})
    this.props.endOrders({type:this.state.type,pageNo:1},(RefreshState)=>{this.setState({refreshState: RefreshState})})
   }
-  
+  loginVertify= (cb) => {
+    if(this.props.user.token) {
+     cb()
+    }else{
+      this.props.navigation.navigate('Login')
+    }
+  }
  onFooterRefresh(key) {
    const orders = this.props.order[key]
    if(orders.pageNo + 1 <= orders.totalPages) {

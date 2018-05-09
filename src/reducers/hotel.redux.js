@@ -58,7 +58,7 @@ export function hotelDetail(info) {
   return (dispatch,getState)=>{
     const customerId = getState().user.id
     axios.get(config.api.base+config.api.hotelDetail, {
-      params:{...info,customerId:customerId}
+      params:{...info,customerId:customerId?customerId:'-1'}
       })
       .then(res => {
         

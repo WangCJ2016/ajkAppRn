@@ -13,11 +13,11 @@ import { hotelRoomDetail,selectDays } from '../../reducers/hotel.redux'
 import { addshopCar } from '../../reducers/shopcar.redux'
 import ViewUtils from '../../utils/viewUtils'
 import { dateFormat } from '../../utils/fnUtils'
-import InphoneXHoc from '../../hoc/inphoneXhoc'
+import { isIphoneX } from '../../utils/fnUtils'
 
- @InphoneXHoc
+const _isIphoneX = isIphoneX()
  @connect(
-   state=>({hotel: state.hotel}),
+   state=>({hotel: state.hotel,user: state.user}),
    { hotelRoomDetail,selectDays,addshopCar }
  )
  class HotelRoomDetailPage extends React.Component {
@@ -87,12 +87,17 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
     )
    }
    submit() {
-    const roomDetail = this.props.hotel.hotelRoomDetail
-     if(this.props.hotel.selectDaysObj) {
-       this.props.addshopCar({houseId:roomDetail.id,inTime:dateFormat(this.props.hotel.selectDaysObj.startDateStr)+' 00:00:00',leaveTime:dateFormat(this.props.hotel.selectDaysObj.endDateStr)+' 00:00:00'},this.props.navigation)
-     }else {
-      this.props.navigation.navigate('RoomDateSelect',{houseId:roomDetail.id,defaultPrice:roomDetail.defaultPrice})
+    if(this.props.user.token) {
+      const roomDetail = this.props.hotel.hotelRoomDetail
+      if(this.props.hotel.selectDaysObj) {
+        this.props.addshopCar({houseId:roomDetail.id,inTime:dateFormat(this.props.hotel.selectDaysObj.startDateStr)+' 00:00:00',leaveTime:dateFormat(this.props.hotel.selectDaysObj.endDateStr)+' 00:00:00'},this.props.navigation)
+      }else {
+        this.props.navigation.navigate('RoomDateSelect',{houseId:roomDetail.id,defaultPrice:roomDetail.defaultPrice})
+      }
+     }else{
+       this.props.navigation.navigate('Login')
      }
+    
    }
    render() {
      const roomDetail = this.props.hotel.hotelRoomDetail
@@ -100,45 +105,45 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
        <View style={{flex:1}}>
          {roomDetail?
            <View style={{flex:1}}>
-           <ParallaxScrollView
-          stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
-          parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
-          backgroundSpeed={10}
-          backgroundColor='#fff'
-          renderBackground={() => (
-            <View key="background" style={{height:220}}>
-              <ImageSlider images={roomDetail.housePictures} />
-            </View>
-          )}
-          renderForeground={() => (
-            <View key="parallax-header" style={ styles.parallaxHeader }>
-              <View style={{flexDirection:'row',flex:1}}>
-                
-              </View> 
-              <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                <Text style={{color: '#FFFFFF'}}>
-                {roomDetail.name}
-                </Text>
-              </View>     
-            </View>
-          )}
-          renderStickyHeader={() => (
-            <View key="sticky-header" style={styles.stickySection}>
-              
-            </View>
-          )}
-          renderFixedHeader={()=>(
-            <View key="sticky-header" style={styles.fixedSection}>
-              {ViewUtils.hotelDeitalHeader({goBack:this.goBack,share:this.share},this.props.hotel.hotelDetail.whetherCollect)}
-            </View>
-          )}
+            <ParallaxScrollView
+              stickyHeaderHeight={ STICKY_HEADER_HEIGHT }
+              parallaxHeaderHeight={ PARALLAX_HEADER_HEIGHT }
+              backgroundSpeed={10}
+              backgroundColor='#fff'
+              renderBackground={() => (
+                <View key="background" style={{height:220}}>
+                  <ImageSlider images={roomDetail.housePictures} />
+                </View>
+              )}
+              renderForeground={() => (
+                <View key="parallax-header" style={ styles.parallaxHeader }>
+                  <View style={{flexDirection:'row',flex:1}}>
+                    
+                  </View> 
+                  <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                    <Text style={{color: '#FFFFFF'}}>
+                    {roomDetail.name}
+                    </Text>
+                  </View>     
+                </View>
+              )}
+              renderStickyHeader={() => (
+                <View key="sticky-header" style={styles.stickySection}>
+                  
+                </View>
+              )}
+              renderFixedHeader={()=>(
+                <View key="sticky-header" style={styles.fixedSection}>
+                  {ViewUtils.hotelDeitalHeader({goBack:this.goBack,share:this.share},this.props.hotel.hotelDetail.whetherCollect)}
+                </View>
+              )}
              >
               <View style={{height:5,backgroundColor: '#f6f6f6'}}></View>
               {this.roomDetailRender()}
               <View style={{height:5,backgroundColor: '#f6f6f6'}}></View>
               {this.assortsRender()}
-           </ParallaxScrollView>
-           <Button type='primary' onClick={this.submit}>加入购物车</Button>
+             </ParallaxScrollView>
+            <Button style={{marginBottom:_isIphoneX?30:0}} type='primary' onClick={this.submit}>加入购物车</Button>
            </View>
             :null}
           
@@ -150,7 +155,7 @@ import InphoneXHoc from '../../hoc/inphoneXhoc'
  
 const ROW_HEIGHT = 50;
 const PARALLAX_HEADER_HEIGHT = 200;
-const STICKY_HEADER_HEIGHT = 50;
+const STICKY_HEADER_HEIGHT = _isIphoneX?70:50;
 
 const styles = StyleSheet.create({
   parallaxHeader: {

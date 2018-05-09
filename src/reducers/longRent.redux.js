@@ -115,7 +115,7 @@ export function landlordResource(info,cb) {
       params:{token:user.token,landlordId:user.id,...info}
       })
       .then(res => {
-       
+        console.log(res)
         if (res.status === 200 && res.data.success) {
           dispatch(housePageSuccess({[info.type+'Pages']: {pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
           cb?cb(RefreshState.Idle):null

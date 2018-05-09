@@ -1,10 +1,10 @@
 import React from 'react';
-import App from './App';
+// import App from './App';
 import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk'; 
-
+import AppWithNavigationState from './src/navigators/AppNavigator'
 import AppReducer from './src/reducers/index';
 
 class Root extends React.Component {
@@ -15,7 +15,7 @@ class Root extends React.Component {
   render() {
     return (
       <Provider store={this.store}>
-       <App />
+        <AppWithNavigationState></AppWithNavigationState>
       </Provider>
     )
   }

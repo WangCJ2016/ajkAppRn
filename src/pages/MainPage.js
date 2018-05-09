@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  NetInfo,
   SafeAreaView
  } from 'react-native'
  import { connect } from 'react-redux'
@@ -21,11 +22,12 @@ import {
  import ViewUtils from '../utils/viewUtils'
  import * as wechat from 'react-native-wechat'
  import { isIphoneX } from '../utils/fnUtils'
+ import SplashScreen from 'react-native-splash-screen'
  var Geolocation = require('Geolocation');
 
  
  @connect(
-   state=>({main: state.main,map:state.map}),
+   state=>({main: state.main,map:state.map,user: state.user}),
    {
     homeBanner,homeHotelPage,gpsConvert,dataSuccess,getInfo
    }
@@ -39,7 +41,8 @@ import {
       }
     }
    componentDidMount() {
-     this.props.getInfo(()=>this.props.navigation.navigate('Login'))
+     SplashScreen.hide()
+     this.props.getInfo()
      this.props.homeBanner({
         level:0
       })
@@ -78,7 +81,11 @@ import {
        address: encodeURI(nextProps.map.city?nextProps.map.city:'杭州市')
      })
      }
-     
+   }
+   netWorkInfo() {
+     NetInfo.getConnectionInfo().then((connectionInfo) => {
+       console.log('Initial, type: ' + connectionInfo.type + ', effectiveType: ' + connectionInfo.effectiveType);
+     });
    }
    imageSilderRender() {
      const arr = this.props.main.level0Banners.map(item=>item.picture)
@@ -95,7 +102,7 @@ import {
    mainBtnsRender() {
      return <View style={styles.main_btns}>
       <TouchableOpacity 
-      onPress={()=>this.props.navigation.navigate('LandlordHousesResource')}
+      onPress={()=> this.loginVertify(()=>this.props.navigation.navigate('LandlordHousesResource'))}
       style={styles.btn_wrap}>
         <Image source={require('../assets/images/fd.png')}></Image>
         <Text style={{marginTop:10,color: '#616161'}}>房东招募</Text>
@@ -114,7 +121,7 @@ import {
         <Text style={{marginTop:10,color: '#616161'}}>长租房源</Text>
       </TouchableOpacity>
       <TouchableOpacity 
-      onPress={()=>this.props.navigation.navigate('MyFavourite')}
+      onPress={()=> this.loginVertify(()=>this.props.navigation.navigate('MyFavourite'))}
       style={styles.btn_wrap}
       >
         <Image source={require('../assets/images/favourite-icon.png')}></Image>
@@ -129,10 +136,14 @@ import {
    }
    level1BannerRender() {
     return this.props.main.level1Banners.map(item=>(
-      <View style={{height:150}} key={item.id}>
-        <Image style={styles.banner_image} source={{uri:item.picture}}></Image>
-        <Text style={styles.banner_text}>{item.title}</Text>
-      </View>
+      <TouchableWithoutFeedback 
+        key={item.id}
+        onPress={()=>this.props.navigation.navigate('HotelDetail',{id:item.hotelId})}>
+        <View style={{height:150}} >
+          <Image style={styles.banner_image} source={{uri:item.picture}}></Image>
+          <Text style={styles.banner_text}>{item.title}</Text>
+        </View>
+      </TouchableWithoutFeedback>
     ))
     
    }
@@ -165,7 +176,15 @@ import {
       }
     }
    }
+   loginVertify= (cb) => {
+     if(this.props.user.token) {
+      cb()
+     }else{
+       this.props.navigation.navigate('Login')
+     }
+   }
    render() {
+     
      return (
       
        <View>

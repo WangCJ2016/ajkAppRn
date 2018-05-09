@@ -20,7 +20,7 @@ import HotelRoomsCom from '../../components/hotelRoomsCom'
 import StarsComponent from '../../components/starsComponent'
 import ViewUtils from '../../utils/viewUtils'
 import * as wechat from 'react-native-wechat'
-import InphoneXHoc from '../../hoc/inphoneXhoc'
+import { isIphoneX } from '../../utils/fnUtils'
  
 
 const BUTTONS = [
@@ -32,7 +32,7 @@ const CANCEL_INDEX = 2;
 
 const HEIGHT =  Dimensions.get('window').height
 
-@InphoneXHoc
+
 @connect(
   state=>({hotel: state.hotel}),
   {hotelDetail,hotelRoomList,scrollHeight,collection,cancelCollection} 
@@ -176,7 +176,7 @@ const window = Dimensions.get('window');
 
 const ROW_HEIGHT = 50;
 const PARALLAX_HEADER_HEIGHT = 200;
-const STICKY_HEADER_HEIGHT = 50;
+const STICKY_HEADER_HEIGHT = isIphoneX()?70:50;
 
 const styles = StyleSheet.create({
   container: {
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     paddingRight: 8,
-    paddingTop: 15,
+    paddingTop: isIphoneX()?35:15,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

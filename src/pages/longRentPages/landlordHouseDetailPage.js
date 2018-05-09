@@ -24,7 +24,7 @@ import {
 
  @NavigateToMapHoc
  @connect(
-    state=>({longRent: state.longRent}),
+    state=>({longRent: state.longRent,user:state.user}),
     {
       landlordHouseDetail,modifyLandlordHouseStatus,addLintent
     }
@@ -93,6 +93,13 @@ import {
         </View>
     })
    }
+   loginVertify= (cb) => {
+    if(this.props.user.token) {
+     cb()
+    }else{
+      this.props.navigation.navigate('Login')
+    }
+  }
    render() {
      const houseDetail = this.props.longRent.landlordHouseDetailwait
      return (
@@ -227,7 +234,7 @@ import {
          {
           this.props.longRent.DetailFromSource==='search'?
           <View style={{padding:10,marginTop:10,backgroundColor:'#fff'}}>
-           <Button type='primary' onClick={()=>this.props.addLintent({houseId: houseDetail.id,landlordId: houseDetail.landlord.id},()=>Toast.info('已预约'))}>预约看房</Button>
+           <Button type='primary' onClick={()=> this.loginVertify(()=>this.props.addLintent({houseId: houseDetail.id,landlordId: houseDetail.landlord.id},()=>Toast.info('已预约')) )}>预约看房</Button>
          </View>
          :null 
          }

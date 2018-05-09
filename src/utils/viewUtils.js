@@ -13,11 +13,13 @@ import {
   ImageBackground,
   Linking
  } from 'react-native'
+import { isIphoneX } from '../utils/fnUtils'
 import StarsComponent from '../components/starsComponent'
 import { TransformStatus,auditFailStatus,telephoneFormat,telephoneHidden } from './fnUtils'
 const Item = List.Item;
 const screenWidth =Dimensions.get('window').width
 
+const _isIphoneX = isIphoneX()
 export default class ViewUtils {
     static itemhasArr(icon,text,cb,width,height) {
       return (<Item
@@ -71,7 +73,7 @@ export default class ViewUtils {
    }
    static hotelDeitalHeader({goBack,collect,share},whetherCollect) {
     return (
-      <View style={{flexDirection:'row',flex:1,justifyContent:'space-between',position:'absolute',left:10,right:10,top:15}}>
+      <View style={{flexDirection:'row',flex:1,justifyContent:'space-between',position:'absolute',left:10,right:10,top:_isIphoneX?35:15}}>
        <TouchableOpacity  onPress={()=>goBack()}>
          <View style={styles.icon_btn}>
           <Image style={{marginRight:3}} source={require('../assets/images/left_arr_icon.png')}></Image>
