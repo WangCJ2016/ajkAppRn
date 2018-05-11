@@ -43,7 +43,6 @@ import {
         ImagePicker.openCamera({
           compressImageQuality: 0.1
         }).then(image => {
-          alert(JSON.stringify(image))
           this.props.imgUpload(image.path,'cameraImg','rentHouseInfo')
         });
      }

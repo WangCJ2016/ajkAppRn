@@ -39,7 +39,7 @@ export function houseHostInfo(info) {
         params:{...info,token:user.token}
       })
       .then(res => {
-        console.log(res)
+        
         if(res.status === 200) {
           dispatch(dataSuccess({houseHostInfo:{...res.data.dataObject,houseId:encode64(info.houseId)}}))
         }
@@ -117,7 +117,7 @@ export function queryDeviceType(info) {
         params:{...info,token:token}
       })
       .then(res => {
-        console.log(res)
+        
         if(res.status === 200) {
           dispatch(dataSuccess({airDeivceType: res.data.dataObject}))
           ctrlHostDeviceByType({
@@ -131,14 +131,14 @@ export function queryDeviceType(info) {
 }
 //light
 export function ctrlHostDeviceByType(info) {
-  console.log(info)
+
   return (dispatch,getState) => {
     const token = getState().user.token
     axios.get(config.api.base+config.api.ctrlHostDeviceByType, {
         params:{...info,token:token}
       })
       .then(res => {
-        console.log(res)
+        
         let airs = []
         if(res.status === 200) {
           if(info.deviceType === 'VIRTUAL_AIR_REMOTE') {
@@ -207,7 +207,7 @@ export function lockData(info) {
         params:{...info,token:token}
       })
       .then(res => {
-        console.log(res)
+        
         if(res.data.success) {
          dispatch(dataSuccess({lockDeviceId: res.data.dataObject.devices[0].deviceId}))
          

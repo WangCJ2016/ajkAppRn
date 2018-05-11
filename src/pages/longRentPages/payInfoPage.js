@@ -33,7 +33,6 @@ import {
    }
    handlePay() {
      const deviceOrderData = this.props.longRent.deviceOrderData
-     alert(deviceOrderData.code)
      this.props.getAlipayParams({orderCode:deviceOrderData.code,totalFee:0.01},this.handleCb)
    }
    handleCb() {

@@ -15,6 +15,7 @@ import {
   SafeAreaView
  } from 'react-native'
  import { connect } from 'react-redux'
+ import { Button } from 'antd-mobile'
  import { homeBanner, homeHotelPage } from '../reducers/main.redux'
  import { gpsConvert,dataSuccess } from '../reducers/map.redux'
  import { getInfo } from '../reducers/user.redux'
@@ -37,35 +38,17 @@ import {
       super()
       this.state = {
         xTop: new Animated.Value(0.0),
-        loadMore: false
+        loadMore: false,
+        netIf: false
       }
     }
    componentDidMount() {
      SplashScreen.hide()
-     this.props.getInfo()
-     this.props.homeBanner({
-        level:0
-      })
-      this.props.homeBanner({
-      level:1
-     })
-      this.props.homeHotelPage({
-        pageNo: 1,
-        pageSize: 5,
-        address: encodeURI('杭州市')
-      })
-    wechat.registerApp('wxd95f6c725d62cb33')
-    Geolocation.getCurrentPosition(location=>{
-      var result = "速度：" + location.coords.speed +
-            "\n经度：" + location.coords.longitude +
-            "\n纬度：" + location.coords.latitude +
-            "\n准确度：" + location.coords.accuracy +
-            "\n行进方向：" + location.coords.heading +
-            "\n海拔：" + location.coords.altitude +
-            "\n海拔准确度：" + location.coords.altitudeAccuracy +
-            "\n时间戳：" + location.timestamp;
-      this.props.gpsConvert({locations:location.coords.longitude+','+location.coords.latitude})
-    })
+     this.netWorkInfo()
+     NetInfo.isConnected.addEventListener(
+      'connectionChange',
+      this.handleFirstConnectivityChange
+    );
    }
    componentWillReceiveProps(nextProps) {
      if(nextProps.map.city!==this.props.map.city) {
@@ -82,9 +65,51 @@ import {
      })
      }
    }
-   netWorkInfo() {
+   componentWillUnMount() {
+     NetInfo.removeEventListener('change', this.handleConnectivityChange);
+   }
+
+   handleFirstConnectivityChange(isConnected) {
+     NetInfo.isConnected.removeEventListener(
+       'connectionChange',
+       this.handleFirstConnectivityChange
+     );
+   }
+   netWorkInfo = () => {
      NetInfo.getConnectionInfo().then((connectionInfo) => {
-       console.log('Initial, type: ' + connectionInfo.type + ', effectiveType: ' + connectionInfo.effectiveType);
+       if(connectionInfo.type !== 'none' ) {
+          this.setState({
+            netIf: true
+          })
+          this.props.getInfo()
+          this.props.homeBanner({
+            level:0
+          })
+          this.props.homeBanner({
+          level:1
+          })
+          this.props.homeHotelPage({
+            pageNo: 1,
+            pageSize: 5,
+            address: encodeURI('杭州市')
+          })
+         wechat.registerApp('wxd95f6c725d62cb33')
+         Geolocation.getCurrentPosition(location=>{
+          var result = "速度：" + location.coords.speed +
+                "\n经度：" + location.coords.longitude +
+                "\n纬度：" + location.coords.latitude +
+                "\n准确度：" + location.coords.accuracy +
+                "\n行进方向：" + location.coords.heading +
+                "\n海拔：" + location.coords.altitude +
+                "\n海拔准确度：" + location.coords.altitudeAccuracy +
+                "\n时间戳：" + location.timestamp;
+          this.props.gpsConvert({locations:location.coords.longitude+','+location.coords.latitude})
+        })
+       } else {
+         this.setState({
+           netIf: false
+         })
+       }
      });
    }
    imageSilderRender() {
@@ -128,6 +153,7 @@ import {
         <Text style={{marginTop:10,color: '#616161'}}>我的收藏</Text>
       </TouchableOpacity>
       <TouchableOpacity 
+      onPress={this.netWorkInfo}
       style={styles.btn_wrap}>
         <Image source={require('../assets/images/more-icon.png')}></Image>
         <Text style={{marginTop:10,color: '#616161'}}>敬请期待</Text>
@@ -187,7 +213,7 @@ import {
      
      return (
       
-       <View>
+       <View style={{flex:1}}>
           <Animated.View style={[styles.fix_top,{
             opacity:this.state.xTop.interpolate({
               inputRange: [0,200],
@@ -212,6 +238,7 @@ import {
               </View>
           </Animated.View>
           <ScrollView 
+            
             onScroll={Animated.event(
               [{nativeEvent: {contentOffset: {y: this.state.xTop}}}],
               {listener: (event) => this.loadMoreData(event)}
@@ -228,24 +255,33 @@ import {
           >
             {this.imageSilderRender()}
             {this.mainBtnsRender()}
-            <ScrollView horizontal={true} style={{height: 150}}>
-              {this.level1BannerRender()}
-            </ScrollView>
             {
-              this.props.main.homeHotels.length>0?
-              <FlatList
-                data={this.props.main.homeHotels}
-                renderItem={(data)=>this.renderRow(data)}
-                keyExtractor={(item, index) => item.id}
-                getItemLayout={(data, index) => (
-                  {length: 130.5, offset: 130.5 * index, index}
-                )}
-                ListFooterComponent={<ActivityIndicator
-                  animating={this.props.main.loadmore}
-                />}
-              />:null
+              this.state.netIf?
+              <View>
+                <ScrollView horizontal={true} style={{height: 150}}>
+                {this.level1BannerRender()}
+                </ScrollView>
+                {
+                  this.props.main.homeHotels.length>0?
+                  <FlatList
+                    data={this.props.main.homeHotels}
+                    renderItem={(data)=>this.renderRow(data)}
+                    keyExtractor={(item, index) => item.id}
+                    getItemLayout={(data, index) => (
+                      {length: 130.5, offset: 130.5 * index, index}
+                    )}
+                    ListFooterComponent={<ActivityIndicator
+                      animating={this.props.main.loadmore}
+                    />}
+                  />:null
+                }
+              </View>:
+              <View style={{flex:1,justifyContent:'center',alignItems:'center',marginTop:60}}>
+                 <Text style={{fontSize:16}}>网络未连接，请检查网络设置</Text>
+                 <Button type='ghost' onClick={this.netWorkInfo} style={{marginTop:10}}>刷新重试</Button>
+              </View>
             }
-          </ScrollView>
+            </ScrollView>
         </View>
   
      )

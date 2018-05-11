@@ -15,8 +15,7 @@ const initialState = {
       tvInfrareCount: '',
       lightCount: '',
       lightInfrareCount: '',
-      payType:'',
-      totalPrice:'0.01'
+      payType:''
   },
   idInfo: {
     name: '',
@@ -81,6 +80,7 @@ export function longRent(state=initialState,action) {
   }
 }
 
+
 export function intialStateSuccess() {
   return {
     type: INTIALSTATE
@@ -115,7 +115,6 @@ export function landlordResource(info,cb) {
       params:{token:user.token,landlordId:user.id,...info}
       })
       .then(res => {
-        console.log(res)
         if (res.status === 200 && res.data.success) {
           dispatch(housePageSuccess({[info.type+'Pages']: {pageNo: res.data.pageNo,totalPages: res.data.totalPages,list: res.data.result}}))
           cb?cb(RefreshState.Idle):null
@@ -125,7 +124,22 @@ export function landlordResource(info,cb) {
       })
   }
 }
-
+// 设备选择
+export function endAgreementDevices() {
+  return (dispatch,getState)=>{
+    const user = getState().user
+    axios.get(config.api.base+config.api.endAgreementDevices)
+      .then(res => {
+        if(res.data.success) {
+          let obj = {}
+          res.data.dataObject.forEach(device => {
+            obj[device.title] = device
+          })
+          dispatch(dataSuccess({endAgreementDevices: obj}))
+        }
+      })
+  }
+}
 function imgUploadSuccess(uri) {
   return {
     type: ADDIMG,

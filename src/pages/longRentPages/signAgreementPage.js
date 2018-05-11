@@ -18,7 +18,7 @@ import {
  import Card from '../../components/card'
  import { createForm } from 'rc-form'
  import { connect } from 'react-redux'
- import { dataSuccess } from '../../reducers/longRent.redux'
+ import { dataSuccess,endAgreementDevices } from '../../reducers/longRent.redux'
  const HEIGHT = Dimensions.get('window').height
  //import InphoneXHoc from '../../hoc/inphoneXhoc'
  
@@ -26,7 +26,7 @@ import {
  @connect(
    state => ({longRent: state.longRent}),
    {
-    dataSuccess
+    dataSuccess,endAgreementDevices
    }
  )
  class SignAgreePage extends React.Component {
@@ -39,15 +39,19 @@ import {
        tvVisible:false,
        lightVisible: false,
        agreeMentCheck:true,
-       wireCount: props.longRent.deviceOrderData.wireCount,
-       wireMeter: props.longRent.deviceOrderData.wireMeter,
-       airCount: props.longRent.deviceOrderData.airCount,
-       airInfrareCount: props.longRent.deviceOrderData.airInfrareCount,
-       airType: props.longRent.deviceOrderData.airType,
-       tvCount: props.longRent.deviceOrderData.tvCount,
-       tvInfrareCount: props.longRent.deviceOrderData.tvInfrareCount,
-       lightCount: props.longRent.deviceOrderData.lightCount,
-       lightInfrareCount: props.longRent.deviceOrderData.lightInfrareCount,
+      //  wireCount: props.longRent.deviceOrderData.wireCount,
+      //  wireMeter: props.longRent.deviceOrderData.wireMeter,
+      //  airCount: props.longRent.deviceOrderData.airCount,
+      //  airInfrareCount: props.longRent.deviceOrderData.airInfrareCount,
+      //  airType: props.longRent.deviceOrderData.airType,
+      //  tvCount: props.longRent.deviceOrderData.tvCount,
+      //  tvInfrareCount: props.longRent.deviceOrderData.tvInfrareCount,
+      //  lightCount: props.longRent.deviceOrderData.lightCount,
+      //  lightInfrareCount: props.longRent.deviceOrderData.lightInfrareCount,
+       wirePriceTotal:0,
+       tvPriceTotal:0,
+       airPriceTotal:0,
+       ligthPriceTotal:0
      }
      this.config = {  
       duration: 150,  
@@ -64,8 +68,8 @@ import {
      this.tvSubmit = this.tvSubmit.bind(this)
      this.lightSubmit = this.lightSubmit.bind(this)
      this.handleNext = this.handleNext.bind(this)
-     this._keyboardDidShow = this._keyboardDidShow.bind(this)
-     this._keyboardDidHide = this._keyboardDidHide.bind(this)
+    //  this._keyboardDidShow = this._keyboardDidShow.bind(this)
+    //  this._keyboardDidHide = this._keyboardDidHide.bind(this)
    }
   static navigationOptions = ({navigation,screenProps}) => ({  
       title: '签署协议',    
@@ -80,33 +84,36 @@ import {
   })
   componentDidMount() {
     this.props.navigation.setParams({handleNext:this.handleNext})
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow)  
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide)  
+    this.props.endAgreementDevices()
+    // this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow)  
+    // this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide)  
   }
-  componentWillUnmount() {  
-    this.keyboardDidShowListener.remove();  
-    this.keyboardDidHideListener.remove();  
-  }  
-  _keyboardDidShow(e) {
-    if(this.state.airVisible) {
-      this.keyWrap.measure((x,y,width,height,px,py)=>{
-        let moveY = HEIGHT - py - e.startCoordinates.height - height
-        if(moveY<0) {
-          LayoutAnimation.configureNext(this.config)
-          this.setState({  
-            marginTop: -moveY   
-          })
-        }
-      })
-    }
-  }
-  _keyboardDidHide() {
-    this.setState({  
-      marginTop:0   
-    });  
-  }
+  // componentWillUnmount() {  
+  //   this.keyboardDidShowListener.remove();  
+  //   this.keyboardDidHideListener.remove();  
+  // }  
+  // _keyboardDidShow(e) {
+  //   if(this.state.airVisible) {
+  //     this.keyWrap.measure((x,y,width,height,px,py)=>{
+  //       let moveY = HEIGHT - py - e.startCoordinates.height - height
+  //       if(moveY<0) {
+  //         LayoutAnimation.configureNext(this.config)
+  //         this.setState({  
+  //           marginTop: -moveY   
+  //         })
+  //       }
+  //     })
+  //   }
+  // }
+  // _keyboardDidHide() {
+  //   this.setState({  
+  //     marginTop:0   
+  //   });  
+  // }
   handleNext() {
     if(this.state.agreeMentCheck) {
+      const endAgreementDevices = this.props.longRent.endAgreementDevices
+      const totalPrice = endAgreementDevices['基础套餐'].profile - 0 + this.state.airPriceTotal + this.state.tvPriceTotal + this.state.ligthPriceTotal + this.state.wirePriceTotal 
       this.props.dataSuccess({
         deviceOrderData: {
           ...this.props.longRent.deviceOrderData,
@@ -119,44 +126,51 @@ import {
           tvInfrareCount: this.state.tvInfrareCount,
           lightCount: this.state.lightCount,
           lightInfrareCount: this.state.lightInfrareCount,
+          totalPrice: totalPrice
         }
       })
       this.props.navigation.navigate('HouseCertification')
     }else{
-      Toast.info('我已经阅读并同意《委托协议》《房源上线标准》')
+      Toast.info('请先阅读并同意《委托协议》《房源上线标准》')
     }
   }
   curtainSubmit(e) {
      this.setState({
         curtainVisible:false,
-        wireCount:this.state._wireCount,
-        wireMeter:this.state._wireMeter
+        wireCount:this.state._wire,
+        wireMeter:this.state._wireMeter,
+        wirePriceTotal: this.state.wirePrice+ this.state.wireMeterPrice,
       })
   }
   airSubmit(e) {
       this.setState({
         airVisible:false,
-        airCount: this.state._airCount,
-        airInfrareCount: this.state._airInfrareCount,
-        airType: this.state._airType
+        airCount: this.state._air,
+        airInfrareCount: this.state._airInfrare,
+        airPriceTotal: this.state.airPrice+ this.state.airInfrarePrice
       })
   }
   tvSubmit(e) {
       this.setState({
         tvVisible:false,
-        tvCount: this.state._tvCount,
-        tvInfrareCount: this.state._tvInfrareCount
+        tvCount: this.state._tv,
+        tvInfrareCount: this.state._tvInfrare,
+        tvPriceTotal: this.state.tvPrice+ this.state.tvInfrarePrice
       })
   }
   lightSubmit(e) {
       this.setState({
         lightVisible:false,
-        lightCount: this.state._lightCount,
-        lightInfrareCount: this.state._lightInfrareCount
+        lightCount: this.state._light,
+        lightInfrareCount: this.state._lightInfrare,
+        lightPriceTotal: this.state.lightPrice+ this.state.lightInfrarePrice
       })
   }
    render() {
-     return (
+     const endAgreementDevices = this.props.longRent.endAgreementDevices
+     const totalPrice = endAgreementDevices?endAgreementDevices['基础套餐'].profile - 0 + this.state.airPriceTotal + this.state.tvPriceTotal + this.state.ligthPriceTotal + this.state.wirePriceTotal:0
+ 
+     return (endAgreementDevices?
       <SafeAreaView style={{flex:1}}>
        <View style={{flex:1}}>
         <ScrollView style={{flex:1,paddingLeft:10,paddingRight:10}}>
@@ -167,7 +181,7 @@ import {
                 <View style={styles.spaceBetween}>
                   <View style={{flexDirection:'row',flex:1}}>
                     <Text style={styles.font_bold}>基础套餐</Text>
-                    <Text style={{color:'#f5a2a2'}}>1999元/间</Text> 
+                    <Text style={{color:'#f5a2a2'}}>{endAgreementDevices['基础套餐'].profile}元/间</Text> 
                   </View> 
                   <Checkbox  checked={true} />
                 </View>
@@ -240,7 +254,7 @@ import {
                     <Text style={[styles.font_bold,{marginLeft:5}]}>空调</Text> 
                     <Text style={{fontSize:13,color:'#808080'}}>(控制空调/调节空调温度/取代空调遥控器)</Text>  
                   </View> 
-                  <Checkbox checked={!!(this.state.airCount>0)&&!!(this.state.airInfrareCount>0)&&!!this.state.airType}  onChange={(e)=>this.setState({airVisible:!this.state.airVisible})}/>
+                  <Checkbox checked={!!(this.state.airCount>0)&&!!(this.state.airInfrareCount>0)}  onChange={(e)=>this.setState({airVisible:!this.state.airVisible})}/>
                 </View>
               )}
               contentView={()=>(
@@ -337,28 +351,11 @@ import {
            </View>   
            <View style={{width:95,backgroundColor:'#ff9c40',height:'100%',justifyContent:'center',alignItems:'center'}}>
              <Text style={{color:'#fff',fontSize:16}}>合计</Text>
-             <Text style={{color:'#fff',fontSize:16,fontWeight:'bold'}}>¥8300</Text>
+             <Text style={{color:'#fff',fontSize:16,fontWeight:'bold'}}>¥{totalPrice}</Text>
            </View>
          </View>
 
-         <Modal
-            title="设备支付方式"
-            transparent
-            maskClosable={false}
-            visible={false}
-            onClose={this.onClose}
-            footer={[{ text: '取消',style: { color:"#ccc" }, onPress: () => {this.onClose(); } },
-            { text: '确定',style: { fontWeight: 'bold' }, onPress: () => {this.props.navigation.navigate('PayInfo')} }]}
-          >
-            <View style={{padding:10,paddingTop:20,flexDirection:'row',alignItems:'center',justifyContent:'space-between',borderBottomColor:'#d8d8d8',borderBottomWidth:0.5}}>
-              <Text style={{fontSize:15}}>直接购买</Text>
-              <Checkbox></Checkbox>
-            </View>
-            <View style={{padding:10,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-              <Text style={{fontSize:15}}>支付押金</Text>
-              <Checkbox></Checkbox>
-            </View> 
-         </Modal>
+         
 
         <Modal
           title="电动窗帘"
@@ -367,23 +364,20 @@ import {
           footer={[{ text: '取消',style: { color:"#ccc" },onPress:()=>this.setState({curtainVisible:false}) },
           { text: '确定',style: { fontWeight: 'bold' }, onPress:()=>this.curtainSubmit() }]}
          >
-          <View style={[styles.modelView,{borderBottomColor:'#d8d8d8',borderBottomWidth:0.5}]}>
-            <Text style={{fontSize:15,color:this.state.wireCount>0?'#333':'red'}}>窗帘电机(个)</Text>
-            <TextInput 
-              defaultValue={this.state.wireCount+''}
-              style={styles.modelTextInput} 
-              keyboardType='numeric' 
-              placeholder='电机个数' onChangeText={(e)=>this.setState({_wireCount:e})}></TextInput>
-          </View>
-          <View style={styles.modelView}>
-            <Text style={{fontSize:15,color:this.state.wireMeter>0?'#333':'red'}}>窗帘轨道长度(米)</Text>
-            <TextInput 
-              defaultValue={this.state.wireMeter+''}
-              style={styles.modelTextInput} 
-              keyboardType='numeric' 
-              placeholder='轨道个数' 
-              onChangeText={(e)=>this.setState({_wireMeter:e})}></TextInput>
-          </View> 
+         {
+           endAgreementDevices['窗帘'].attrs.map(item => (
+            <View key={item.id} style={[styles.modelView,{borderBottomColor:'#d8d8d8',borderBottomWidth:0.5}]}>
+              <Text style={{fontSize:15,color:this.state['_'+item.type]>0?'#333':'red'}}>{item.title}</Text>
+              <TextInput 
+                defaultValue={this.state['_'+item.type]}
+                style={styles.modelTextInput} 
+                keyboardType='numeric' 
+                placeholder={item.title} onChangeText={(e)=>this.setState({['_'+item.type]:e,[item.type+'Price']:e*item.price})}></TextInput>
+            </View>
+           ))
+         }
+          
+          
         </Modal>
        
         <Modal
@@ -394,30 +388,18 @@ import {
           footer={[{ text: '取消',style: { color:"#ccc" }, onPress: ()=>this.setState({airVisible:false}) },
           { text: '确定',style: { fontWeight: 'bold' }, onPress:()=>this.airSubmit() }]}
          >
-          
-            <View style={[styles.modelView,{borderBottomColor:'#d8d8d8',borderBottomWidth:0.5}]}>
-              <Text style={{fontSize:15,color:this.state.airCount>0?'#333':'red'}}>空调面板(个)</Text>
-              <TextInput 
-                defaultValue={this.state.airCount+''}
-                style={styles.modelTextInput} 
-                keyboardType='numeric' 
-                placeholder='面板个数' onChangeText={(e)=>this.setState({_airCount:e})}></TextInput>
-            </View>
-            <View style={[styles.modelView,{borderBottomColor:'#d8d8d8',borderBottomWidth:0.5}]}>
-              <Text style={{fontSize:15,color:this.state.airInfrareCount>0?'#333':'red'}}>360度红外转发器(个)</Text>
-              <TextInput 
-                defaultValue={this.state.airInfrareCount+''}
-                style={styles.modelTextInput} 
-                keyboardType='numeric' placeholder='转发器个数' onChangeText={(e)=>this.setState({_airInfrareCount:e})}></TextInput>
-            </View> 
-            <View ref={(view)=>this.keyWrap=view} style={[styles.modelView,{marginBottom: this.state.marginTop}]}>
-              <Text style={{fontSize:15,color:this.state.airType?'#333':'red'}}>空调样式</Text>
-              <TextInput 
-                defaultValue={this.state.airType+''}
-                style={styles.modelTextInput}  
-                placeholder='空调样式' 
-                onChangeText={(e)=>this.setState({_airType:e})}></TextInput>
-            </View> 
+         {
+          endAgreementDevices['空调'].attrs.map(item => (
+           <View key={item.id} style={[styles.modelView,{borderBottomColor:'#d8d8d8',borderBottomWidth:0.5}]}>
+             <Text style={{fontSize:15,color:this.state['_'+item.type]>0?'#333':'red'}}>{item.title}</Text>
+             <TextInput 
+               defaultValue={this.state['_'+item.type]}
+               style={styles.modelTextInput} 
+               keyboardType='numeric' 
+               placeholder={item.title} onChangeText={(e)=>this.setState({['_'+item.type]:e,[item.type+'Price']:e*item.price})}></TextInput>
+           </View>
+          ))
+        }
          
         </Modal>
       
@@ -429,22 +411,18 @@ import {
           footer={[{ text: '取消',style: { color:"#ccc" }, onPress: ()=>this.setState({tvVisible:false}) },
           { text: '确定',style: { fontWeight: 'bold' }, onPress:()=>this.tvSubmit() }]}
          >
-          <View style={[styles.modelView,{borderBottomColor:'#d8d8d8',borderBottomWidth:0.5}]}>
-            <Text style={{fontSize:15,color:this.state.tvCount>0?'#333':'red'}}>智能电感(个)</Text>
-            <TextInput 
-              defaultValue={this.state.tvCount+''}
-              style={styles.modelTextInput} 
-              keyboardType='numeric' 
-              placeholder='电感个数' onChangeText={(e)=>this.setState({_tvCount:e})}></TextInput>
-          </View>
-          <View style={[styles.modelView]}>
-            <Text style={{fontSize:15,color:this.state.tvInfrareCount>0?'#333':'red'}}>360度红外转发器(个)</Text>
-            <TextInput 
-              defaultValue={this.state.tvInfrareCount+''}
-              style={styles.modelTextInput} 
-              keyboardType='numeric' 
-              placeholder='转发器个数' onChangeText={(e)=>this.setState({_tvInfrareCount:e})}></TextInput>
-          </View> 
+         {
+          endAgreementDevices['电视'].attrs.map(item => (
+           <View key={item.id} style={[styles.modelView,{borderBottomColor:'#d8d8d8',borderBottomWidth:0.5}]}>
+             <Text style={{fontSize:15,color:this.state[item.type]>0?'#333':'red'}}>{item.title}</Text>
+             <TextInput 
+               defaultValue={this.state['_'+item.type]}
+               style={styles.modelTextInput} 
+               keyboardType='numeric' 
+               placeholder={item.title} onChangeText={(e)=>this.setState({['_'+item.type]:e,[item.type+'Price']:e*item.price})}></TextInput>
+           </View>
+          ))
+        }
          
         </Modal>
 
@@ -456,27 +434,22 @@ import {
           footer={[{ text: '取消',style: { color:"#ccc" }, onPress: ()=>this.setState({lightVisible:false}) },
           { text: '确定',style: { fontWeight: 'bold' }, onPress:()=>this.lightSubmit() }]}
          >
-          <View style={[styles.modelView,{borderBottomColor:'#d8d8d8',borderBottomWidth:0.5}]}>
-            <Text style={{fontSize:15,color:this.state.lightCount>0?'#333':'red'}}>智能开关面板(个)</Text>
-            <TextInput 
-              defaultValue={this.state.lightCount+''}
-              style={styles.modelTextInput} 
-              keyboardType='numeric' 
-              placeholder='面板个数' onChangeText={(e)=>this.setState({_lightCount:e})}></TextInput>
-          </View>
-          <View style={[styles.modelView]}>
-            <Text style={{fontSize:15,color:this.state.lightInfrareCount>0?'#333':'red'}}>红外人体感应器(个)</Text>
-            <TextInput 
-              defaultValue={this.state.lightInfrareCount+''}  
-              style={styles.modelTextInput} 
-              keyboardType='numeric' 
-              placeholder='感应器个数' 
-              onChangeText={(e)=>this.setState({_lightInfrareCount:e})}></TextInput>
-          </View> 
+         {
+          endAgreementDevices['灯'].attrs.map(item => (
+           <View key={item.id} style={[styles.modelView,{borderBottomColor:'#d8d8d8',borderBottomWidth:0.5}]}>
+             <Text style={{fontSize:15,color:this.state['_'+item.type]>0?'#333':'red'}}>{item.title}</Text>
+             <TextInput 
+               defaultValue={this.state['_'+item.type]}
+               style={styles.modelTextInput} 
+               keyboardType='numeric' 
+               placeholder={item.title} onChangeText={(e)=>this.setState({['_'+item.type]:e,[item.type+'Price']:e*item.price})}></TextInput>
+           </View>
+          ))
+        }
          
         </Modal>
        </View>
-       </SafeAreaView>
+       </SafeAreaView>:null
      )
    }
  }

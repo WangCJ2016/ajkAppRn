@@ -27,7 +27,7 @@ import { getId } from '../../reducers/user.redux'
    door(){
      const houseHostInfo = this.props.ctrl.houseHostInfo
      const hasInHouse = this.props.ctrl.hasInHouse
-     console.log(hasInHouse)
+    
      const lockDeviceId = this.props.ctrl.lockDeviceId
      this.props.smartHostCtrl({
       customerId: this.props.customerId,

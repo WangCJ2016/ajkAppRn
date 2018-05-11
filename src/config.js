@@ -102,6 +102,7 @@ export const config = {
      offlineLease: 'op/op_landlordOfflineLease',
      modifyLeaseIntent:'op/op_modifyLeaseIntent',
      delLeaseIntent:'op/op_deleteLeaseIntents',
+     endAgreementDevices:'op/op_queryLandlordDevices',
     // customer
     modifySubOrdersStatus:'op/op_modifySubOrdersStatus',
     cancleSubOrder: 'op/op_cancleSubOrder', 
