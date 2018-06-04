@@ -113,7 +113,7 @@ const MainScreenNavigator = TabNavigator({
       header:false,
       tabBarLabel:(<Text></Text>),
       tabBarIcon: ({focused,tintColor}) =>(
-        <HomeTabItem  focused={focused}/>
+        <Image style={[{tintColor: tintColor},{width:22,height:22}]} source={require('../assets/images/home.png')} />
       ),
     },
    
